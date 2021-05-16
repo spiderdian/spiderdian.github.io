@@ -4,7 +4,7 @@
 // REMINDER FOR THE SAKE OF ORGANIZATION I GUESS -- Discriptive pieces> Species pieces> OC pieces
 
 //body parts
-const blank = 'images/_blank/blank.png';
+const blank = 'images/blank/blank.png';
 const wings = [ //wings have a chance of being replaced by blanks
     {
         name: 'Temp Wings',
