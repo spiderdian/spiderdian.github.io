@@ -205,6 +205,7 @@ h2 {
 #container {
 	position: relative;
 	width:auto;
+	min-width: 600px;
 	height: 80vh ;
 
 }
