@@ -11,45 +11,47 @@
 </head>
 
 <body>
-<main>
-    <div id="sidebar" class="collapsed">
-        <div class="block"></div>
-        <div id="container2"></div>
-        <div class="block2"></div>      
+    <div class="wrapper">
+        <main>
+         <div id="sidebar" class="collapsed">
+         <div class="block"></div>
+         <div id="container2"></div>
+         <div class="block2"></div>      
         
         
-    </div>
-
-
-
-    <div class="main">
-        <button class="openbtn" onclick="toggleNav()">▷</button>
-        <div class="center">
-              <div id="container"></div>
-              <button class="randomize"><label>SHUFFLE</label></button>
         </div>
-        <button class="openbtn2" onclick="toggleNav2()">◁</button>
+
+
+
+         <div class="main">
+          <button class="openbtn" onclick="toggleNav()">▷</button>
+                <div class="center">
+                    <div id="container"></div>
+                     <button class="randomize"><label>SHUFFLE</label></button>
+                    </div>
+          <button class="openbtn2" onclick="toggleNav2()">◁</button>
+        </div>
+
+
+
+        <div id="sidebar2" class="collapsed">
+            <div class="block"></div>
+            <div class="block3"></div>
+
+            
+                <div class="custom-select">
+                <label><b>Palette:</b> </label>
+                <select id="paletteSelect"></select>
+                </div>
+
+            <div id="paletteContainer"></div>
+            <div id="colorDisplay"></div>
+
+        </div>
+
+
+        </main>
     </div>
-
-
-
-    <div id="sidebar2" class="collapsed">
-        <div class="block"></div>
-        <div class="block3"></div>
-
-        
-            <div class="custom-select">
-              <label><b>Palette:</b> </label>
-              <select id="paletteSelect"></select>
-             </div>
-
-        <div id="paletteContainer"></div>
-        <div id="colorDisplay"></div>
-
-    </div>
-
-
-</main>
 </body>
 <div class="footer" >
       <b>Chimera v1.0 by Erik Debawse and Dian Santos</b>
