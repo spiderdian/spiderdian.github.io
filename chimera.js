@@ -172,12 +172,12 @@ const legs_full = [
         url: 'images/legs_full/naga/',
         mask: ['skin2','scale1']
     },
-    {
-        name: 'Arachne Lower Body',
-        type: 'arachne',
-        url: 'images/legs_full/arachne/',
-        mask: ['fur1','scale1']
-    },
+    //{         Temporarily Removed
+    //    name: 'Arachne Lower Body',
+    //   type: 'arachne',
+    //    url: 'images/legs_full/arachne/',
+    //    mask: ['fur1','scale1']
+    //},
 ];
 const torso = [
     {
@@ -538,7 +538,7 @@ const eyes = [
         name: 'Iban Eyes',
         type: 'iban',
         url: 'images/eyes/iban/',
-        mask: ['sclera']
+        mask: ['sclera',"iris"]
     },
   
 ];
@@ -827,30 +827,24 @@ const palettes = [ //throw hex values in here. include hashtags. //anything unde
 ];
 
 function toggleNav() {
-    //console.log(document.getElementById("sidebar").style.width);
-    if ((document.getElementById("sidebar").style.width == "0px")||(document.getElementById("sidebar").style.width == "")) {
-        //console.log("sidebar width was 0.");
-        document.getElementById("sidebar").style.width = "32%";
-        document.getElementById("sidebar").style.minWidth = "205px";
-        
-    }
-    else {
-        document.getElementById("sidebar").style.width = "0px";
-        document.getElementById("sidebar").style.minWidth = "0px";
-        
+    let sidebar = document.getElementById("sidebar");
+    if (sidebar.className == "collapsed") {
+        sidebar.style.transform = "translateX(0)";
+        sidebar.className = "extended";
+    } else {
+        sidebar.style.transform = "translateX(-100%)";
+        sidebar.className = "collapsed";
     }
 }
 
 function toggleNav2() {
-    //console.log(document.getElementById("sidebar").style.width);
-    if ((document.getElementById("sidebar2").style.width == "0px")||(document.getElementById("sidebar2").style.width == "")) {
-        //console.log("sidebar width was 0.");
-        document.getElementById("sidebar2").style.width = "30%";
-        document.getElementById("sidebar2").style.minWidth = "200px";
-    }
-    else {
-        document.getElementById("sidebar2").style.width = "0px";
-        document.getElementById("sidebar2").style.minWidth = "0px";
+    let sidebar = document.getElementById("sidebar2");
+    if (sidebar.className == "collapsed") {
+        sidebar.style.transform = "translateX(0)";
+        sidebar.className = "extended";
+    } else {
+        sidebar.style.transform = "translateX(100%)";
+        sidebar.className = "collapsed";
     }
 }
 
@@ -987,59 +981,59 @@ $(document).ready(() => {
 function setElementBody(url, elemId, mask, type) {
     //elemId+ '_' + mask = id
     if (mask.includes('skin1')) {
-       setMask(url + elemId + '_' + type + '_skin1.png', elemId + '_skin1');
+       setMask(url + elemId + '_' + type + '_skin1.svg', elemId + '_skin1');
     } else {
         unsetMask(elemId + '_skin1');
     }
     if (mask.includes('skin2')) {
-        setMask(url + elemId + '_' + type + '_skin2.png', elemId + '_skin2');
+        setMask(url + elemId + '_' + type + '_skin2.svg', elemId + '_skin2');
     } else {
         unsetMask(elemId + '_skin2');
     }
     if (mask.includes('scale1')) {
-        setMask(url + elemId + '_' + type + '_scale1.png', elemId + '_scale1');
+        setMask(url + elemId + '_' + type + '_scale1.svg', elemId + '_scale1');
     } else {
         unsetMask(elemId + '_scale1');
     }
     if (mask.includes('fur1')) {
-        setMask(url + elemId + '_' + type + '_fur1.png', elemId + '_fur1');
+        setMask(url + elemId + '_' + type + '_fur1.svg', elemId + '_fur1');
     } else {
         unsetMask(elemId + '_fur1');
     }
     if (mask.includes('fur2')) {
-        setMask(url + elemId + '_' + type + '_fur2.png', elemId + '_fur2');
+        setMask(url + elemId + '_' + type + '_fur2.svg', elemId + '_fur2');
     } else {
         unsetMask(elemId + '_fur2');
     }
-    setMask(url + elemId + '_' + type + '_line.png', elemId + '_line');
+    setMask(url + elemId + '_' + type + '_line.svg', elemId + '_line');
 }
 function setElementHair(url, elemId, mask, type) {
     //elemId+ '_' + mask = id
     if (mask.includes('color')) {
-        setMask(url + elemId + '_' + type + '_color.png', elemId + '_color');
+        setMask(url + elemId + '_' + type + '_color.svg', elemId + '_color');
     } else {
         unsetMask(elemId + '_color');
     }
-    setMask(url + elemId + '_' + type + '_line.png', elemId + '_line');
+    setMask(url + elemId + '_' + type + '_line.svg', elemId + '_line');
 }
 function setElementHairFront(url, elemId, mask, type, horns_frontEnabled) {//if horns_front is enabled, we set to alt   //elemId+ '_' + mask = id
     if (!horns_frontEnabled) {
         if (mask.includes('color')) {
-            setMask(url + elemId + '_' + type + '_color.png', elemId + '_color');
+            setMask(url + elemId + '_' + type + '_color.svg', elemId + '_color');
         } else {
             unsetMask(elemId + '_color');
         }
-        setMask(url + elemId + '_' + type + '_line.png', elemId + '_line');
+        setMask(url + elemId + '_' + type + '_line.svg', elemId + '_line');
         setClassBody('horns_front', 'noHornsFront');
         setClassHair('hair_front', 'noHornsFront');
     }
     else {
         if (mask.includes('color')) {
-            setMask(url + 'alt_' + elemId +  '_' + type + '_color.png', elemId + '_color');
+            setMask(url + 'alt_' + elemId +  '_' + type + '_color.svg', elemId + '_color');
         } else {
             unsetMask(elemId + '_color');
         }
-        setMask(url + 'alt_' + elemId + '_' + type + '_line.png', elemId + '_line');
+        setMask(url + 'alt_' + elemId + '_' + type + '_line.svg', elemId + '_line');
         setClassBody('horns_front', 'hornsFront');
         setClassHair('hair_front', 'hornsFront');
     }
@@ -1047,26 +1041,26 @@ function setElementHairFront(url, elemId, mask, type, horns_frontEnabled) {//if 
 function setElementEyes(url, elemId, mask, type) {
     //elemId+ '_' + mask = id
     if (mask.includes('sclera')) {
-        setMask(url + elemId + '_' + type + '_sclera.png', elemId + '_sclera');
+        setMask(url + elemId + '_' + type + '_sclera.svg', elemId + '_sclera');
     } else {
         unsetMask(elemId + '_sclera');
     }
     if (mask.includes('iris')) {
-        setMask(url + elemId + '_' + type + '_iris.png', elemId + '_iris');
+        setMask(url + elemId + '_' + type + '_iris.svg', elemId + '_iris');
     } else {
         unsetMask(elemId + '_iris');
     }
     if (mask.includes('fur2')) {
-        setMask(url + elemId + '_' + type + '_fur2.png', elemId + '_fur2');
+        setMask(url + elemId + '_' + type + '_fur2.svg', elemId + '_fur2');
     } else {
         unsetMask(elemId + '_fur2');
     }
     if (mask.includes('color')) {
-        setMask(url + elemId + '_' + type + '_color.png', elemId + '_color');
+        setMask(url + elemId + '_' + type + '_color.svg', elemId + '_color');
     } else {
         unsetMask(elemId + '_color');
     }
-    setMask(url + elemId + '_' + type + '_line.png', elemId + '_line');
+    setMask(url + elemId + '_' + type + '_line.svg', elemId + '_line');
 
 }
 
@@ -1115,7 +1109,7 @@ function maskImplementer(url, id, maskString, type) {
         let div = document.createElement('div');
         let img = document.createElement('img'); //creates the image
         if (type !== 'blank') {
-            img.src = url + id + '_' + type + '_' + maskString + '.png';
+            img.src = url + id + '_' + type + '_' + maskString + '.svg';
         } else {
             img.src = blank;
         }
@@ -1128,7 +1122,7 @@ function maskImplementer(url, id, maskString, type) {
     else {
         let img = document.createElement('img'); //creates the image
         if (type !== 'blank') {
-            img.src = url + id + '_' + type + '_' + maskString + '.png';
+            img.src = url + id + '_' + type + '_' + maskString + '.svg';
         } else {
             img.src = blank;
         }
@@ -1187,7 +1181,7 @@ function updatePart(part, index, partName) {
 
 
             //console.log(currHairLines.join('/'));
-            if (currHairLines[currHairLines.length-1] !== "blank.png") { //we have an image and not a blank
+            if (currHairLines[currHairLines.length-1] !== "blank.svg") { //we have an image and not a blank
                 let currHairLine = currHairLines[currHairLines.length-1];
                 let currHairColor = currHairColors[currHairColors.length-1];
                 currHairLines.pop();
@@ -1321,7 +1315,7 @@ function initSideBarElement(fileName, part, requirement) {
                     //setElementHairFront(part[index].url, partName, part[index].mask, part[index].type,true); //set hairfront to alt
                     let currHairLines = document.getElementById('hair_front_line').src.split("/");
                     let currHairColors = document.getElementById('hair_front_color').src.split("/");
-                    if (currHairLines[currHairLines.length-1] !== "blank.png") { //we have an image and not a blank
+                    if (currHairLines[currHairLines.length-1] !== "blank.svg") { //we have an image and not a blank
                         let currHairLine = currHairLines[currHairLines.length-1];
                         let currHairColor = currHairColors[currHairColors.length-1];
                         currHairLines.pop();
@@ -1926,12 +1920,13 @@ initElementBody(shoulders[0].url, 'shoulders', shoulders[0].mask, shoulders[0].t
 initElementBody(ears[0].url, 'ears', ears[0].mask, ears[0].type);
 //head
 initElementBody(head[0].url, 'head', head[0].mask, head[0].type);
+//eyes (unique case)
+initElementEyes(eyes[0].url, 'eyes', eyes[0].mask, eyes[0].type);
 //nose
 initElementBody(nose[0].url, 'nose', nose[0].mask, nose[0].type);
 //mouth
 initElementBody(mouth[0].url , 'mouth', mouth[0].mask, mouth[0].type);
-//eyes (unique case)
-initElementEyes(eyes[0].url, 'eyes', eyes[0].mask, eyes[0].type);
+
 //base has no horns so we pass blank in
 initElementBody(blank, 'horns', horns[0].mask, 'blank');
 //hair_front

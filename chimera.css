@@ -9,8 +9,8 @@
 	box-sizing: border-box;
 }
 
-#container
-img {
+
+#container img {
 	position: absolute;
 	left: calc(50% - 30vh) ;
 	width:auto;
@@ -167,7 +167,7 @@ img {
 	color:black;
 }
 
-.sidenav img {
+#sidebar img {
 	position: relative;
 	display: inline-block;
 	width: 160px;
@@ -177,7 +177,7 @@ img {
 	border-radius: 25px;
 }
 
-.sidenav img:hover {
+#sidebar img:hover {
 	position: relative;
 	width: 160px;
 	background-color: #B8B8B8;
@@ -205,7 +205,6 @@ h2 {
 #container {
 	position: relative;
 	width:auto;
-	min-width: 600px;
 	height: 80vh ;
 
 }
@@ -274,13 +273,13 @@ label {
 	font-size: 110%;
 }
 
-.sidenav {
+#sidebar {
 	height: 100%;
 	overflow-y:scroll;
-	overflow-x: hidden;
-	transition: .5s;
-	width: 0;
-	min-width: 0;
+	transform: translateX(-100%);
+	transition: transform .5s ease;
+	width: 32%;
+	min-width: 200px;
 	position: absolute;
 	z-index: 1;
 	top: 0;
@@ -292,18 +291,19 @@ label {
 	border-right-width: 1em;
 }
 
-.sidenav2 {
+#sidebar2 {
+	height: 100%;
+	transform: translateX(100%);
+	transition: transform .5s ease;
 	text-align: center;
 	position: absolute;
-	right:0;
-	min-width: 0;
-	display: block;
-	height: 100%;
-	transition: .5s;
-	width: 0;
-	top: 0;
-	background-color: #9A9A9A;
+	width: 32%;
+	min-width: 200px;
 	z-index: 10;
+	top: 0;
+	right:0;
+	display: block;
+	background-color: #9A9A9A;
 	border-left-style:solid;
 	border-left-color: #f1f1f1;
 	border-left-width: 1em;
@@ -312,8 +312,8 @@ label {
 
 #paletteContainer {
 	padding-top: 2em;
-	padding-left: 4vw;
-	padding-right:4vw;
+	padding-left: 2vw;
+	padding-right: 2vw;
 }
 
 .paletteSwatch {
@@ -372,4 +372,34 @@ label {
 	padding: 0px 10px;
 }
 
+.footer {
+	padding-right: 24px;
+	position: fixed;
+	right: 0%;
+	bottom: 0;
+	width: 100%;
+	background-color: rgb(129, 129, 129);
+	color: white;
+	text-align: right;
+}
 
+.block{
+	z-index: 9;
+	position:sticky;
+	width:100%;
+	height: 2.1em;
+	background-color: rgb(105, 105, 105);
+	top:0px;
+	box-shadow: 0em 0em 0.5em black;
+	clip-path: inset(-0.5em -0.5em -0.5em 0.03em);
+}
+.block3{
+	z-index: 9;
+	position:absolute;
+	width:100%;
+	height: 7em;
+	background-color: rgb(105, 105, 105);
+	bottom:0px;
+	box-shadow: 0em 0em 0.5em black;
+	clip-path: inset(-0.5em -0.5em -0.5em 0.03em);
+}
