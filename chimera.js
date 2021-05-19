@@ -172,12 +172,12 @@ const legs_full = [
         url: 'images/legs_full/naga/',
         mask: ['skin2','scale1']
     },
-    //{         Temporarily Removed
-    //    name: 'Arachne Lower Body',
-    //   type: 'arachne',
-    //    url: 'images/legs_full/arachne/',
-    //    mask: ['fur1','scale1']
-    //},
+    {     
+       name: 'Arachne Lower Body',
+       type: 'arachne',
+        url: 'images/legs_full/arachne/',
+        mask: ['fur1','scale1']
+    },
 ];
 const torso = [
     {
@@ -269,17 +269,24 @@ const arms = [ //(includes hands)
         mask: ['skin2','fur1']
     },
     {
-        name: 'Santr Arms',
-        type: 'santr',
-        url: 'images/arms/santr/',
-        mask: ['fur2','fur1']
-    },
-    {
         name: 'Kobold Arms',
         type: 'kobold',
         url: 'images/arms/kobold/',
         mask: ['skin2','scale1']
     },
+    {
+        name: 'Claw Arms',
+        type: 'claw',
+        url: 'images/arms/claw/',
+        mask: ['skin2','scale1']
+    },
+    {
+        name: 'Santr Arms',
+        type: 'santr',
+        url: 'images/arms/santr/',
+        mask: ['fur2','fur1']
+    },
+    
 ];
 const shoulders = [
     {
@@ -353,15 +360,21 @@ const head = [
         mask: ['skin1']
     },
     {
+        name: 'Fur Head',
+        type: 'fur',
+        url: 'images/head/fur/',
+        mask: ['fur1','fur2']
+    },
+    {
         name: 'Kobold Head',
         type: 'kobold',
         url: 'images/head/kobold/',
         mask: ['scale1']
     },
     {
-        name: 'Fur Head',
-        type: 'fur',
-        url: 'images/head/fur/',
+        name: 'Owl Head',
+        type: 'owl',
+        url: 'images/head/owl/',
         mask: ['fur1','fur2']
     },
     {
@@ -476,6 +489,12 @@ const mouth = [
         type: 'mousey',
         url: 'images/mouth/mousey/',
         mask: []
+    },
+    {
+        name: 'Owl Mouth',
+        type: 'owl',
+        url: 'images/mouth/owl/',
+        mask: ['skin2','fur1']
     },
     {
         name: 'Santr Mouth',
@@ -1910,12 +1929,13 @@ initElementBody(blank, 'legs_full', legs_full[0].mask, 'blank');
 setClassBody('legs_full', 'notFull');
 //torso
 initElementBody(torso[0].url, 'torso', torso[0].mask, torso[0].type);
-//neck
-initElementBody(neck[0].url, 'neck', neck[0].mask, neck[0].type);
+
 //arms (+ hands)
 initElementBody(arms[0].url, 'arms', arms[0].mask, arms[0].type);
 //shoulders
 initElementBody(shoulders[0].url, 'shoulders', shoulders[0].mask, shoulders[0].type);
+//neck
+initElementBody(neck[0].url, 'neck', neck[0].mask, neck[0].type);
 //ears
 initElementBody(ears[0].url, 'ears', ears[0].mask, ears[0].type);
 //head
