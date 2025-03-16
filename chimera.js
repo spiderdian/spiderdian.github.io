@@ -242,7 +242,7 @@ function updateSwatchesToPalette() {
     for (let i = 0; i < layerList.length; i++) {
         let swatch = document.getElementById(layerList[i]);
         let dropSwatches = document.getElementsByClassName(layerList[i] + "_curr");
-        
+
         swatch.style.backgroundColor = paletteList[chimeraConfigData['paletteIndex']]['data'][layerList[i]]; //chimeraConfigData.palette['data'][layerList[i]];
         for (let j = 0; j < dropSwatches.length; j++) {
             dropSwatches[j].style.backgroundColor = chimeraConfigData['palette']['data'][layerList[i]];
@@ -273,7 +273,7 @@ function initSideBar2() {
                     chimeraConfigData['paletteIndex'] = newPaletteIndex;
                     //console.log(chimeraConfigData['palette'])
                     updateSwatchesToPalette();
-                    //drawChimera()                 
+                    drawChimera()                 
                 }
             }
         }
