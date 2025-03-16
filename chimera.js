@@ -127,7 +127,7 @@ function updatePartType(partString, partType) {
         if (partString == 'legs_full'){
             chimeraConfigData['legsFullToggled'] = true
         }
-        else if (partString == 'legs_hips' || partString == 'legs_feet') {
+        else if (partString == 'legs_hips' || partString == 'legs_feet' || partString == 'tail') {
             chimeraConfigData['legsFullToggled'] = false
         }
         chimeraSVGData[partString]['data'] = new BodyPart(partType)
@@ -202,6 +202,7 @@ async function drawChimera() {
         //console.log(chimeraSVGData[renderOrder[i]])
         if ("enabled" in chimeraSVGData[renderOrder[i]]) { //optional parts
             if (chimeraSVGData[renderOrder[i]]['enabled']) {
+                //console.log("hi")
                 if (renderOrder[i] == 'hair_front') { //if horns are enabled, render the alt for hair front
                     if (chimeraSVGData['horns_front']['enabled']) {
                         compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], true)
@@ -209,6 +210,10 @@ async function drawChimera() {
                         compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], false)
                     }
                 } // all other optional parts
+                else if (renderOrder[i] == 'tail') {
+                    //console.log(chimeraConfigData.legsFullToggled)
+                    if (!chimeraConfigData.legsFullToggled) compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], false)
+                }
                 else {
                     compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], false)
                 }
