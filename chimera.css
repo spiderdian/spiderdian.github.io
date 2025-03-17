@@ -193,22 +193,28 @@ h2 {
 
 
 #chimera {
-	position: relative;
+	position: absolute;
+	min-width:600;
+    min-height:800;
+    top:-35px;
+
 }
 
 
 .center {
-	margin: 0 auto;
+	
 	min-width: 600px;
+	min-height: 800px;
 	justify-content: center;
 	display: block;
 	height: fit-content ;
 	overflow:hidden;
+	position: relative;
 }
 
 body {
 	overflow-x: hidden;
-	height: 90%;
+	
 	display: flex;
 	justify-content: center;
 	background-color: #4A4A4A;
@@ -235,11 +241,14 @@ body {
 	display: block;
 	overflow-x: hidden;
 	width: 40vh;
-	height:15vh;
+	height:10vh;
 	min-height: 80px;
 	min-width: 200px;
 	bottom: 20px;
-	
+	position: fixed;
+	bottom: -5px;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .custom-select {
@@ -355,7 +364,7 @@ label {
 .main {
 
 	font-size: 28px; /* Increased text to enable scrolling */
-	padding: 0px 10px;
+	/*padding: 0px 10px;*/
 }
 
 .footer {
