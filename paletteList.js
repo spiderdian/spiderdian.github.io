@@ -1,6 +1,6 @@
 const paletteList = [ 
     { 
-        "name": "Default",
+        "name": "Monochroma",
         "data":
         {
             "skin1": "#676767",
@@ -9,8 +9,8 @@ const paletteList = [
             "fur1": "#424242",
             "fur2": "#6D6D6D",
             "sclera": "#FFFFFF",
-            "iris": "#4D0D0D",
-            "color": "#777D93"
+            "iris": "#68554C",
+            "color": "#6B757E"
         }
     },
     { 
@@ -108,7 +108,7 @@ const paletteList = [
             "fur2": "#FF6F80",
             "sclera": "#FFFFFF",
             "iris": "#42EBD0",
-            "color": "#94DDDE"
+            "color": "#84726A"
         }
     },
 
@@ -117,7 +117,7 @@ const paletteList = [
         "name": "Tundra",
         "data":
         {
-            "skin1": "#EBCAA4",
+            "skin1": "#D0B99F",
             "scale1": "#CABA97",
             "skin2": "#A08775",
             "fur1": "#B2C7CB",
@@ -167,6 +167,160 @@ const paletteList = [
             "sclera": "#EBF8E1",
             "iris": "#FAE618",
             "color": "#FFF8F3"
+        }
+    },
+    {
+        "name": "Batty",
+        "data":
+        {
+            "skin1": "#755047",
+            "scale1": "#4D3135",
+            "skin2": "#633C34",
+            "fur1": "#684D5C",
+            "fur2": "#684D5C",
+            "sclera": "#554249",
+            "iris": "#9CB8C2",
+            "color": "#6F3D4D"
+        }
+    },
+    {
+        "name": "Muted",
+        "data":
+        {
+            "skin1": "#B7A7AE",
+            "scale1": "#B38270",
+            "skin2": "#C0A7B0",
+            "fur1": "#958A88",
+            "fur2": "#A1918B",
+            "sclera": "#F2B46D",
+            "iris": "#E7F2F0",
+            "color": "#EBD5A3"
+        }
+    },
+    {
+        "name": "Aviary",
+        "data":
+        {
+            "skin1": "#38303D",
+            "scale1": "#EEF4F5",
+            "skin2": "#B2E8F2",
+            "fur1": "#4C3D49",
+            "fur2": "#748DAE",
+            "sclera": "#F4ECEF",
+            "iris": "#C7A9C6",
+            "color": "#453540"
+        }
+    },
+    {
+        "name": "Interplanetary",
+        "data":
+        {
+            "skin1": "#47A156",
+            "scale1": "#494F49",
+            "skin2": "#94E79A",
+            "fur1": "#8FF08A",
+            "fur2": "#EBE35C",
+            "sclera": "#0F0F0E",
+            "iris": "#E5E4D6",
+            "color": "#7BDB7C"
+        }
+    },
+    {
+        "name": "Blossoming",
+        "data":
+        {
+            "skin1": "#955C43",
+            "scale1": "#65362F",
+            "skin2": "#B2C087",
+            "fur1": "#EDA4CD",
+            "fur2": "#EDA4CD",
+            "sclera": "#675868",
+            "iris": "#FF59C3",
+            "color": "#EDAEBC"
+        }
+    },
+    {
+        "name": "Infernal",
+        "data":
+        {
+            "skin1": "#E45A56",
+            "scale1": "#653E4C",
+            "skin2": "#D7504D",
+            "fur1": "#4D3B41",
+            "fur2": "#412E37",
+            "sclera": "#AE2F32",
+            "iris": "#E5AD4A",
+            "color": "#4F5056"
+        }
+    },
+    {
+        "name": "Hadopelagic",
+        "data":
+        {
+            "skin1": "#F0D1E1",
+            "scale1": "#513832",
+            "skin2": "#F5E2E9",
+            "fur1": "#2D2B2A",
+            "fur2": "#282222",
+            "sclera": "#151616",
+            "iris": "#B2A8F2",
+            "color": "#3F2E43"
+        }
+    },
+    {
+        "name": "Nostos Algós",
+        "data":
+        {
+            "skin1": "#B0DB30",
+            "scale1": "#8CC324",
+            "skin2": "#90BC27",
+            "fur1": "#278854",
+            "fur2": "#1C4846",
+            "sclera": "#D1EE27",
+            "iris": "#F2F4D6",
+            "color": "#3E9A3C"
+        }
+    },
+    {
+        "name": "Olivine",
+        "data":
+        {
+            "skin1": "#716632",
+            "scale1": "#2B3631",
+            "skin2": "#888042",
+            "fur1": "#B09C65",
+            "fur2": "#C0A878",
+            "sclera": "#FDFFEA",
+            "iris": "#C95840",
+            "color": "#3B4D36"
+        }
+    },
+    {
+        "name": "Spooky Kooky",
+        "data":
+        {
+            "skin1": "#F28D3D",
+            "scale1": "#312E33",
+            "skin2": "#F7AF52",
+            "fur1": "#7E716A",
+            "fur2": "#71605A",
+            "sclera": "#464246",
+            "iris": "#54B730",
+            "color": "#5A4561"
+        }
+    },
+    {
+        "name": "First Frost",
+        "data":
+        {
+            "skin1": "#FAFAFD",
+            "scale1": "#EE4945",
+            "skin2": "#EAEFF5",
+            "fur1": "#388742",
+            "fur2": "#619C5F",
+            "sclera": "#E3EFF4",
+            "iris": "#242224",
+            "color": "#242224"
         }
     }
 ]
