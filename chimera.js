@@ -2,6 +2,12 @@ import {BodyPart,Palette} from "./ChimeraParts.js";
 let canvas = document.getElementById("chimera");
 let ctx = canvas.getContext("2d");
 
+
+
+const sounds = {
+    "shuffle": new Audio('sounds/shuffle.ogg')
+}
+
 const svgElementStart = '<svg version="1.0" xmlns="http://www.w3.org/2000/svg"\nwidth="1200.000000pt" height="1600.000000pt" viewBox="0 0 1200.000000 1600.000000"\n preserveAspectRatio="xMidYMid meet">'
 const svgElementEnd = '</svg>'
 const renderOrder = ['hair_back', 'wings', 'tail', 'legs_feet', 'legs_hips', 'legs_full', 'torso', 'neck', 'arms', 'shoulders', 'ears', 'head', 'nose', 'mouth', 'eyes', 'horns', 'hair_front', 'horns_front']
@@ -17,7 +23,18 @@ const niceNames = {
     "color": "Hair"
 }
 
+function playSound(sound, volume) {
+    if (volume) {
+        sounds[sound].volume = volume
+    } else {
+        sounds[sound].volume = 1
+    }
+    sounds[sound].load(); //reloads the sound, which will stop the currently playing instance
+    sounds[sound].play();
+}
+
 $('button.randomize').on('click', function() {
+    playSound('shuffle', 0.2);
     randomize();
     updateSwatchesToPalette();
     drawChimera();

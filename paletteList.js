@@ -187,9 +187,9 @@ const paletteList = [
         "name": "Muted",
         "data":
         {
-            "skin1": "#B7A7AE",
-            "scale1": "#B38270",
-            "skin2": "#C0A7B0",
+            "skin1": "#C0A7B0",
+            "scale1": "#B7A7AE",
+            "skin2": "#B38270",
             "fur1": "#958A88",
             "fur2": "#A1918B",
             "sclera": "#F2B46D",
@@ -231,7 +231,7 @@ const paletteList = [
         {
             "skin1": "#955C43",
             "scale1": "#65362F",
-            "skin2": "#B2C087",
+            "skin2": "#C0D289",
             "fur1": "#EDA4CD",
             "fur2": "#EDA4CD",
             "sclera": "#675868",
@@ -257,14 +257,14 @@ const paletteList = [
         "name": "Hadopelagic",
         "data":
         {
-            "skin1": "#F0D1E1",
-            "scale1": "#513832",
-            "skin2": "#F5E2E9",
+            "skin1": "#E1DFEA",
+            "scale1": "#363530",
+            "skin2": "#3F3D36",
             "fur1": "#2D2B2A",
             "fur2": "#282222",
             "sclera": "#151616",
             "iris": "#B2A8F2",
-            "color": "#3F2E43"
+            "color": "#43342E"
         }
     },
     {
@@ -299,14 +299,14 @@ const paletteList = [
         "name": "Spooky Kooky",
         "data":
         {
-            "skin1": "#F7AF52",
-            "scale1": "#2E332E",
-            "skin2": "#F28D3D",
+            "skin1": "#47403B",
+            "scale1": "#D5803D",
+            "skin2": "#DA9D50",
             "fur1": "#926650",
             "fur2": "#815242",
             "sclera": "#464246",
             "iris": "#E54CCC",
-            "color": "#8B5A9B"
+            "color": "#2E332E"
         }
     },
     {
@@ -315,12 +315,12 @@ const paletteList = [
         {
             "skin1": "#E3E4F4",
             "scale1": "#E75551",
-            "skin2": "#F0E5F7",
-            "fur1": "#388742",
-            "fur2": "#619C5F",
+            "skin2": "#D2414B",
+            "fur1": "#5D7460",
+            "fur2": "#48624B",
             "sclera": "#E1F8F9",
             "iris": "#242224",
-            "color": "#F06466"
+            "color": "#F07864"
         }
     },
     {
@@ -379,7 +379,7 @@ const paletteList = [
             "color": "#FDD754"
         }
     },
-    {
+    /*{ //it's mid
         "name": "Cold Burn",
         "data":
         {
@@ -392,16 +392,16 @@ const paletteList = [
             "iris": "#E2F4EE",
             "color": "#0A173C"
         }
-    },
+    },*/
     {
         "name": "Dragoo",
         "data":
         {
             "skin1": "#E5C6E1",
-            "scale1": "#74B973",
+            "scale1": "#E6DEE7",
             "skin2": "#AF92B3",
             "fur1": "#DDD2DE",
-            "fur2": "#E6DEE7",
+            "fur2": "#C3A8C2",
             "sclera": "#F4E0EE",
             "iris": "#8DC38B",
             "color": "#F0E0ED"
@@ -436,17 +436,17 @@ const paletteList = [
         }
     },*/
     {
-        "name": "Helainthus",
+        "name": "Helianthus",
         "data":
         {
-            "skin1": "#454F31",
-            "scale1": "#4B3631",
-            "skin2": "#3F2825",
-            "fur1": "#EBC216",
-            "fur2": "#DB9708",
-            "sclera": "#3C362F",
-            "iris": "#4E443D",
-            "color": "#F5D624"
+            "skin1": "#4B6751",
+            "scale1": "#E48600",
+            "skin2": "#963A01",
+            "fur1": "#F4A703",
+            "fur2": "#BF5A05",
+            "sclera": "#4B2C19",
+            "iris": "#70623F",
+            "color": "#F9BC06"
         }
     },
     /*{ //this one is whatever
@@ -481,9 +481,9 @@ const paletteList = [
         "name": "Sand and Sun",
         "data":
         {
-            "skin1": "#EDCBB8",
-            "scale1": "#1389B3",
-            "skin2": "#2BADC0",
+            "skin1": "#E0BDA5",
+            "scale1": "#D57895",
+            "skin2": "#DA9495",
             "fur1": "#CE96A8",
             "fur2": "#DCAC9C",
             "sclera": "#D9F0DF",
@@ -495,28 +495,28 @@ const paletteList = [
         "name": "Synthwave",
         "data":
         {
-            "skin1": "#E966B7",
-            "scale1": "#F99C4F",
-            "skin2": "#281516",
-            "fur1": "#82E2DE",
-            "fur2": "#1E262B",
-            "sclera": "#2A1B29",
-            "iris": "#F46AC1",
-            "color": "#3D2443"
+            "skin1": "#0E022D",
+            "scale1": "#E99D5A",
+            "skin2": "#E96668",
+            "fur1": "#843187",
+            "fur2": "#67295A",
+            "sclera": "#02010A",
+            "iris": "#6E8AF9",
+            "color": "#3D1931"
         }
     },
     {
-        "name": "Aurum",
+        "name": "Midas Touched",
         "data":
         {
-            "skin1": "#FBA317",
-            "scale1": "#EE690E",
-            "skin2": "#ED8711",
-            "fur1": "#FFD233",
-            "fur2": "#FEE45D",
-            "sclera": "#DC5E1F",
-            "iris": "#EE7E33",
-            "color": "#F9E195"
+            "skin1": "#E6AA2A",
+            "scale1": "#906612",
+            "skin2": "#A17218",
+            "fur1": "#A87D1A",
+            "fur2": "#C89625",
+            "sclera": "#7F590B",
+            "iris": "#FFD561",
+            "color": "#FFE361"
         }
     }
 ]
