@@ -233,7 +233,7 @@ const paletteList = [
             "scale1": "#65362F",
             "skin2": "#955C43",
             "fur1": "#EDA4CD",
-            "fur2": "#EDA4CD",
+            "fur2": "#F4DDE6",
             "sclera": "#675868",
             "iris": "#FF59C3",
             "color": "#EDAEBC"
