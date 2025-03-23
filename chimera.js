@@ -2,8 +2,6 @@ import {BodyPart,Palette} from "./ChimeraParts.js";
 let canvas = document.getElementById("chimera");
 let ctx = canvas.getContext("2d");
 
-
-
 const sounds = {
     "shuffle": new Audio('sounds/shuffle.ogg')
 }

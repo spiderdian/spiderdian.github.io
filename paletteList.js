@@ -482,10 +482,10 @@ const paletteList = [
         "data":
         {
             "skin1": "#E0BDA5",
-            "scale1": "#D57895",
-            "skin2": "#DA9495",
-            "fur1": "#CE96A8",
-            "fur2": "#DCAC9C",
+            "scale1": "#DA9495",
+            "skin2": "#E7CEBD",
+            "fur1": "#2BADC0",
+            "fur2": "#1389B3",
             "sclera": "#D9F0DF",
             "iris": "#83D7A5",
             "color": "#E2F4E5"
