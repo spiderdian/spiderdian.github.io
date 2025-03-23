@@ -232,11 +232,11 @@ const paletteList = [
             "skin1": "#C0D289",
             "scale1": "#65362F",
             "skin2": "#955C43",
-            "fur1": "#EDA4CD",
+            "fur1": "#EDAEBC",
             "fur2": "#F4DDE6",
             "sclera": "#675868",
-            "iris": "#FF59C3",
-            "color": "#EDAEBC"
+            "iris": "#CB439A",
+            "color": "#EDA4CD"
         }
     },
     {
