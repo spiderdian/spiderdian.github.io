@@ -229,9 +229,9 @@ const paletteList = [
         "name": "Blossoming",
         "data":
         {
-            "skin1": "#955C43",
+            "skin1": "#C0D289",
             "scale1": "#65362F",
-            "skin2": "#C0D289",
+            "skin2": "#955C43",
             "fur1": "#EDA4CD",
             "fur2": "#EDA4CD",
             "sclera": "#675868",
