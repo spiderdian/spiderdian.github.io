@@ -2,6 +2,10 @@ import {BodyPart,Palette} from "./ChimeraParts.js";
 let canvas = document.getElementById("chimera");
 let ctx = canvas.getContext("2d");
 
+// manually set canvas dimension attributes in here
+canvas.setAttribute('width', '600');
+canvas.setAttribute('height', '800');
+
 const sounds = {
     "shuffle": new Audio('sounds/shuffle.ogg')
 }
@@ -21,6 +25,9 @@ const niceNames = {
     "color": "Hair"
 }
 
+let sideNav1Open = false
+let sideNav2Open = false
+
 function playSound(sound, volume) {
     if (volume) {
         sounds[sound].volume = volume
@@ -39,25 +46,27 @@ $('button.randomize').on('click', function() {
 });
 
 $('button.openbtn').on('click', function() {
-    let sidebar = document.getElementById("sidebar");
-    if (sidebar.className == "collapsed") {
-        sidebar.style.transform = "translateX(0)";
-        sidebar.className = "extended";
+    let sidebar = document.getElementById("partSideBar");
+    if (sideNav1Open) {
+        //sidebar.style.transform = "translateX(0)";
+        //sidebar.className = "extended";
+        sidebar.style.width = '0%'
     } else {
-        sidebar.style.transform = "translateX(-100%)";
-        sidebar.className = "collapsed";
+        //sidebar.style.transform = "translateX(-100%)";
+        //sidebar.className = "collapsed";
+        sidebar.style.width = '32%'
     }
+    sideNav1Open = !sideNav1Open
 });
 
 $('button.openbtn2').on('click', function() {
-    let sidebar = document.getElementById("sidebar2");
-    if (sidebar.className == "collapsed") {
-        sidebar.style.transform = "translateX(0)";
-        sidebar.className = "extended";
+    let sidebar = document.getElementById("paletteSideBar");
+    if (sideNav2Open) {
+        sidebar.style.width = '0%'
     } else {
-        sidebar.style.transform = "translateX(100%)";
-        sidebar.className = "collapsed";
+        sidebar.style.width = '32%'
     }
+    sideNav2Open = !sideNav2Open
 });
 
 //disables the up and down arrow keys for the select box so we don't get any unwanted behavior.
@@ -104,7 +113,7 @@ function initSideBarElements() {
         let div = document.createElement('div'); //creates the divider
         let img = document.createElement('img'); //creates the image
         img.src = 'icons/' + renderOrder[i] + '.png';
-        let src = document.getElementById('container2');
+        let src = document.getElementById('partContainer');
         div.className = 'dropdown';
         div.appendChild(img);
 
@@ -259,6 +268,7 @@ function getRandomNumber(max) {
 }
 
 function updateSwatchesToPalette() {
+    console.log("yuh")
     for (let i = 0; i < layerList.length; i++) {
         let swatch = document.getElementById(layerList[i]);
         let dropSwatches = document.getElementsByClassName(layerList[i] + "_curr");
@@ -268,14 +278,11 @@ function updateSwatchesToPalette() {
             dropSwatches[j].style.backgroundColor = chimeraConfigData['palette']['data'][layerList[i]];
             dropSwatches[j].onclick = function () {
                 let targetColor = paletteList[chimeraConfigData['paletteIndex']]['data'][layerList[i]]
-                //console.log(targetColor)
-                document.getElementById(layerList[j]).style.backgroundColor = targetColor;
-                chimeraConfigData['palette']['data'][layerList[j]] = targetColor 
-                //console.log(chimeraConfigData['palette'])
-                drawChimera();
-                document.getElementById("paletteSelect").value = chimeraConfigData['palette']['name'] + " (Custom)";
+                updateSingleSwatch(this, layerList[j], targetColor)
             }
-        }        
+        } 
+        document.getElementById("custom_" + layerList[i]).value = paletteList[chimeraConfigData['paletteIndex']]['data'][layerList[i]];
+        
     }
 }
 
@@ -332,15 +339,21 @@ function initOtherPaletteSwatches() {
             //console.log(targetLayer)
             dropSwatches[j].onclick = function () {
                 let targetColor = paletteList[dropSwatches[j].id]['data'][dropSwatches[j].parentElement.parentElement.id]
-                document.getElementById(targetLayer).style.backgroundColor = targetColor;
-                chimeraConfigData['palette']['data'][targetLayer] = targetColor 
-                drawChimera();
-                if (!(document.getElementById("paletteSelect").value).endsWith(" (Custom)")) {
-                    document.getElementById("paletteSelect").value = document.getElementById("paletteSelect").value + " (Custom)";
-                }
+                updateSingleSwatch(this, targetLayer, targetColor)
+                //document.getElementById(targetLayer).style.backgroundColor = targetColor;
             }
         }        
     }
+}
+
+function updateSingleSwatch(element, targetLayer, targetColor) {
+    element.parentElement.parentElement.style.backgroundColor = targetColor
+    chimeraConfigData['palette']['data'][targetLayer] = targetColor
+    drawChimera();
+    if (!(document.getElementById("paletteSelect").value).endsWith(" (Custom)")) {
+        document.getElementById("paletteSelect").value = document.getElementById("paletteSelect").value + " (Custom)";
+    } 
+    document.getElementById("custom_" + targetLayer).value = targetColor;
 }
 
 function initSideBar2Display(swatch) {
@@ -380,22 +393,10 @@ function initSideBar2Display(swatch) {
 
     let customColorSwatch = document.createElement("input");
     customColorSwatch.type = "color"
-    customColorSwatch.value = "#FFFFFF"
-    customColorSwatch.id = swatch.id
+    customColorSwatch.value = chimeraConfigData.palette.data[swatch.id] //"#FFFFFF"
+    customColorSwatch.id = 'custom_' + swatch.id
     customColorSwatch.onchange = function() {
-        console.log(this.value)
-        console.log("hello?")
-        console.log(this.id)
-        if (typeof(this.selectedIndex) != 'undefined') {
-            console.log(this.selectedIndex)
-        }
-        let targetLayer = this.id
-        this.parentElement.parentElement.style.backgroundColor = this.value
-        chimeraConfigData['palette']['data'][targetLayer] = this.value
-        if (!(document.getElementById("paletteSelect").value).endsWith(" (Custom)")) {
-            document.getElementById("paletteSelect").value = document.getElementById("paletteSelect").value + " (Custom)";
-        }
-        drawChimera();
+        updateSingleSwatch(this, swatch.id, this.value)
     }
     div.appendChild(customColorSwatch);
 }
