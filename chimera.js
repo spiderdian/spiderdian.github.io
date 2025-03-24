@@ -268,7 +268,6 @@ function getRandomNumber(max) {
 }
 
 function updateSwatchesToPalette() {
-    console.log("yuh")
     for (let i = 0; i < layerList.length; i++) {
         let swatch = document.getElementById(layerList[i]);
         let dropSwatches = document.getElementsByClassName(layerList[i] + "_curr");
@@ -282,7 +281,6 @@ function updateSwatchesToPalette() {
             }
         } 
         document.getElementById("custom_" + layerList[i]).value = paletteList[chimeraConfigData['paletteIndex']]['data'][layerList[i]];
-        
     }
 }
 
