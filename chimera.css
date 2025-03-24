@@ -388,7 +388,7 @@ label {
 }
 
 .block2 {
-	z-index: 9;
+	z-index: 4;
 	position: relative;
 	overflow-y: hidden;
 	display:block;
