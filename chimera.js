@@ -6,6 +6,8 @@ let oldTimeStamp = 0
 canvas.setAttribute('width', '600');
 canvas.setAttribute('height', '800');
 
+let xPos = 0.0
+let yPos = 0.0
 let img = new Image();
 let chimeraGraphic = ""
 let amplitude = 0.0;
@@ -36,32 +38,7 @@ requestAnimationFrame(function tick() {
 });
 
 
-let xPos = 0.0
-let yPos = 0.0
-/*
-//theoretical render loop, but it gets pissy about memory after a while
-window.onload = function () {
-    compileGraphic();
-    drawChimera();
-    window.requestAnimationFrame(
-        (timeStamp) => {
-            renderLoop(timeStamp)
-        }
-    );
-}
 
-function renderLoop(timeStamp) {
-    // Calculate how much time has passed
-    oldTimeStamp = timeStamp;
-    console.log(oldTimeStamp / 1000)
-    if (parseInt(oldTimeStamp / 1000) == 0) {
-        compileGraphic();
-    } 
-
-    window.requestAnimationFrame(
-        (timeStamp) => renderLoop(timeStamp)
-    );
-}*/
 
 const sounds = {
     "shuffle": new Audio('sounds/shuffle.ogg')
@@ -91,8 +68,8 @@ async function playSound(sound, volume) {
     } else {
         sounds[sound].volume = 1
     }
-    sounds[sound].currentTime = 0
-    sounds[sound].play();
+    sounds[sound].load();
+    sounds[sound].play().catch(console.warn);;
 }
 
 $('button.randomize').on('click', function() {
