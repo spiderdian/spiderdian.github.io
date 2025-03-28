@@ -21,7 +21,7 @@ var last = Date.now();
 requestAnimationFrame(function tick() {
     if (Date.now() - last >= getMSFromFPS(24)) { 
         if (amplitude > 0.0) {
-            amplitude -= 0.1
+            amplitude -= 0.04
         }
         else {
             amplitude = 0
@@ -100,8 +100,9 @@ $('button.randomize').on('click', function() {
     randomize();
     updateSwatchesToPalette();
     compileGraphic();
-    drawChimera();
-    amplitude += 0.5
+    drawChimera(); 
+    if (amplitude < maxAmplitude)
+        amplitude += 0.4;
 });
 
 $('button.openbtn').on('click', function() {
