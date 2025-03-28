@@ -8,6 +8,8 @@ canvas.setAttribute('height', '800');
 
 let img = new Image();
 let chimeraGraphic = ""
+let amplitude = 0.0;
+let maxAmplitude = 10.0;
 
 // 12 fps = 83.333 MS - 17 MS / 2 = ~75 ms
 const callBackMS = 17 //approximately 17 ms for function callback
@@ -18,7 +20,12 @@ function getMSFromFPS(fps) {
 var last = Date.now();
 requestAnimationFrame(function tick() {
     if (Date.now() - last >= getMSFromFPS(24)) { 
-        let amplitude = 4;
+        if (amplitude > 0.0) {
+            amplitude -= 0.1
+        }
+        else {
+            amplitude = 0
+        }
         xPos = Math.sin(Date.now() / 500) * amplitude;
         yPos = (Math.sin(Date.now() / 500) * Math.cos(Date.now() / 500)) * amplitude;
         compileGraphic();
@@ -94,6 +101,7 @@ $('button.randomize').on('click', function() {
     updateSwatchesToPalette();
     compileGraphic();
     drawChimera();
+    amplitude += 0.5
 });
 
 $('button.openbtn').on('click', function() {
