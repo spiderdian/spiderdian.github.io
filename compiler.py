@@ -83,4 +83,4 @@ if __name__ == '__main__':
     directory_path = Path('./images/')
     list_files_pathlib(directory_path)
     with open("partsList.js", "w") as js_file:
-        js_file.write(f"let partsList = {json.dumps(all_parts, indent=4)}")
+        js_file.write(f"const partsList = {json.dumps(all_parts, indent=4)}")

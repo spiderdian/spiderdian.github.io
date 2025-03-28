@@ -1,10 +1,60 @@
 import {BodyPart,Palette} from "./ChimeraParts.js";
 let canvas = document.getElementById("chimera");
 let ctx = canvas.getContext("2d");
-
+let oldTimeStamp = 0
 // manually set canvas dimension attributes in here
 canvas.setAttribute('width', '600');
 canvas.setAttribute('height', '800');
+
+let img = new Image();
+let chimeraGraphic = ""
+
+// 12 fps = 83.333 MS - 17 MS / 2 = ~75 ms
+const callBackMS = 17 //approximately 17 ms for function callback
+function getMSFromFPS(fps) {
+    return 1000 / fps - callBackMS / 2;
+}
+//last timestamp
+var last = Date.now();
+requestAnimationFrame(function tick() {
+    if (Date.now() - last >= getMSFromFPS(24)) { 
+        let amplitude = 4;
+        xPos = Math.sin(Date.now() / 500) * amplitude;
+        yPos = (Math.sin(Date.now() / 500) * Math.cos(Date.now() / 500)) * amplitude;
+        compileGraphic();
+        drawChimera();
+        last = Date.now();
+    }
+    requestAnimationFrame(tick);
+});
+
+
+let xPos = 0.0
+let yPos = 0.0
+/*
+//theoretical render loop, but it gets pissy about memory after a while
+window.onload = function () {
+    compileGraphic();
+    drawChimera();
+    window.requestAnimationFrame(
+        (timeStamp) => {
+            renderLoop(timeStamp)
+        }
+    );
+}
+
+function renderLoop(timeStamp) {
+    // Calculate how much time has passed
+    oldTimeStamp = timeStamp;
+    console.log(oldTimeStamp / 1000)
+    if (parseInt(oldTimeStamp / 1000) == 0) {
+        compileGraphic();
+    } 
+
+    window.requestAnimationFrame(
+        (timeStamp) => renderLoop(timeStamp)
+    );
+}*/
 
 const sounds = {
     "shuffle": new Audio('sounds/shuffle.ogg')
@@ -28,13 +78,13 @@ const niceNames = {
 let sideNav1Open = false
 let sideNav2Open = false
 
-function playSound(sound, volume) {
+async function playSound(sound, volume) {
     if (volume) {
         sounds[sound].volume = volume
     } else {
         sounds[sound].volume = 1
     }
-    sounds[sound].load(); //reloads the sound, which will stop the currently playing instance
+    sounds[sound].currentTime = 0
     sounds[sound].play();
 }
 
@@ -42,6 +92,7 @@ $('button.randomize').on('click', function() {
     playSound('shuffle', 0.2);
     randomize();
     updateSwatchesToPalette();
+    compileGraphic();
     drawChimera();
 });
 
@@ -164,6 +215,7 @@ function updatePartType(partString, partType) {
     }
     
     //console.log(chimeraSVGData[partString]['data'])
+    compileGraphic();
     drawChimera();
 }
 
@@ -197,30 +249,27 @@ function randomize() {
 }
 
 function generatePartGrahpic(part, altEnabled) {
-    //console.log(mask)
     let graphic = ""
     for (let i = 0; i < part.maskOrder.length; i++) {
         let data = part[!altEnabled ? 'svgData' : 'svgDataAlt'][i]
         if (altEnabled && data == "") { //if no alt data present, set to original
             data = part['svgData'][i]
         }
-        const fillRegex = /fill="#[0-9a-fA-F]{6}"/ 
+        const fillRegex = /fill="#[0-9a-fA-F]{6}"/
         //replace whatever is in the g element fill field with data from the palette, based on its layer (mask order)
         if (part.maskOrder[i] != 'line') {
             data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
         }
         const graphicsRegex = /<g[\s\S]*<\/g>/
-        //create a string of graphics to prevent out-of-order svg loading
-        graphic += data.match(graphicsRegex)
+        //create a string of graphics to prevent out-of-order svg loading, and wrap the graphic data in an extra graphic layer to allow us to theoretically animate it. maybe
+        let wrapper = '<g transform="translate(' + xPos + ',' + yPos + ')">\n' + data.match(graphicsRegex) + '\n</g>'
+        //console.log(wrapper)
+        graphic += wrapper
     }
     return graphic
 }
 
-
-drawChimera()
-
-async function drawChimera() {
-    //console.log(chimeraSVGData)
+function compileGraphic() {
     let compiledGraphic = ""
     for (let i = 0; i < renderOrder.length; i++) {
         //console.log(chimeraSVGData[renderOrder[i]])
@@ -255,8 +304,11 @@ async function drawChimera() {
             }
         }
     }
-    let img = new Image();
-    img.src = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgElementStart + compiledGraphic + svgElementEnd);
+    chimeraGraphic = compiledGraphic
+}
+
+async function drawChimera() {
+    img.src = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgElementStart + chimeraGraphic + svgElementEnd);
     img.onload = function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -298,7 +350,8 @@ function initSideBar2() {
                     chimeraConfigData['paletteIndex'] = newPaletteIndex;
                     //console.log(chimeraConfigData['palette'])
                     updateSwatchesToPalette();
-                    drawChimera()                 
+                    compileGraphic()
+                    drawChimera()  
                 }
             }
         }
@@ -347,6 +400,7 @@ function initOtherPaletteSwatches() {
 function updateSingleSwatch(element, targetLayer, targetColor) {
     element.parentElement.parentElement.style.backgroundColor = targetColor
     chimeraConfigData['palette']['data'][targetLayer] = targetColor
+    compileGraphic()
     drawChimera();
     if (!(document.getElementById("paletteSelect").value).endsWith(" (Custom)")) {
         document.getElementById("paletteSelect").value = document.getElementById("paletteSelect").value + " (Custom)";
