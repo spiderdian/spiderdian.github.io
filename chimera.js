@@ -1,19 +1,22 @@
 import {BodyPart,Palette} from "./ChimeraParts.js";
 let canvas = document.getElementById("chimera");
 let ctx = canvas.getContext("2d");
+
 let oldTimeStamp = 0
 // manually set canvas dimension attributes in here
-canvas.setAttribute('width', '600');
-canvas.setAttribute('height', '800');
+canvas.setAttribute('width', '1200');
+canvas.setAttribute('height', '1600');
 
 let xPos = 0.0
 let yPos = 0.0
 let img = new Image();
 let chimeraGraphic = ""
 let amplitude = 0.0;
-let maxAmplitude = 10.0;
+let maxAmplitude = 5.0;
 
 // 12 fps = 83.333 MS - 17 MS / 2 = ~75 ms
+const fps = 24
+const bounceFactor = 0.5;
 const callBackMS = 17 //approximately 17 ms for function callback
 function getMSFromFPS(fps) {
     return 1000 / fps - callBackMS / 2;
@@ -21,15 +24,23 @@ function getMSFromFPS(fps) {
 //last timestamp
 var last = Date.now();
 requestAnimationFrame(function tick() {
-    if (Date.now() - last >= getMSFromFPS(24)) { 
+    if (Date.now() - last >= getMSFromFPS(fps)) { 
+        let fpsFactor = 60 / fps
+        //amplitude = maxAmplitude
         if (amplitude > 0.0) {
-            amplitude -= 0.04
+            amplitude -= 0.08 * fpsFactor
         }
         else {
             amplitude = 0
         }
-        xPos = Math.sin(Date.now() / 500) * amplitude;
-        yPos = (Math.sin(Date.now() / 500) * Math.cos(Date.now() / 500)) * amplitude;
+        
+        console.log(amplitude)
+        let scale = 2 / (3 - Math.cos(2*last)) * amplitude;
+        
+        xPos = scale * Math.cos(last) * amplitude;
+        yPos = scale * Math.sin(2 * last) / 2 * amplitude;
+        
+        //console.log(yPos)
         compileGraphic();
         drawChimera();
         last = Date.now();
@@ -69,17 +80,19 @@ async function playSound(sound, volume) {
         sounds[sound].volume = 1
     }
     sounds[sound].load();
-    sounds[sound].play().catch(console.warn);;
+    sounds[sound].play().catch((e)=>{
+        
+     })
 }
 
 $('button.randomize').on('click', function() {
     playSound('shuffle', 0.2);
     randomize();
     updateSwatchesToPalette();
-    compileGraphic();
-    drawChimera(); 
+    //compileGraphic();
+    //drawChimera(); 
     if (amplitude < maxAmplitude)
-        amplitude += 0.4;
+        amplitude += 2.0;
 });
 
 $('button.openbtn').on('click', function() {
@@ -201,8 +214,8 @@ function updatePartType(partString, partType) {
     }
     
     //console.log(chimeraSVGData[partString]['data'])
-    compileGraphic();
-    drawChimera();
+    //compileGraphic();
+    //drawChimera();
 }
 
 // Return the list index of the part type, defaults to 0 if it cannot be found
@@ -296,8 +309,10 @@ function compileGraphic() {
 async function drawChimera() {
     img.src = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgElementStart + chimeraGraphic + svgElementEnd);
     img.onload = function() {
+        ctx.scale(0.5, 0.5);
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        ctx.scale(2, 2);
     }
 }
 
@@ -336,8 +351,8 @@ function initSideBar2() {
                     chimeraConfigData['paletteIndex'] = newPaletteIndex;
                     //console.log(chimeraConfigData['palette'])
                     updateSwatchesToPalette();
-                    compileGraphic()
-                    drawChimera()  
+                    //compileGraphic()
+                    //drawChimera()  
                 }
             }
         }
@@ -386,8 +401,8 @@ function initOtherPaletteSwatches() {
 function updateSingleSwatch(element, targetLayer, targetColor) {
     element.parentElement.parentElement.style.backgroundColor = targetColor
     chimeraConfigData['palette']['data'][targetLayer] = targetColor
-    compileGraphic()
-    drawChimera();
+    //compileGraphic()
+    //drawChimera();
     if (!(document.getElementById("paletteSelect").value).endsWith(" (Custom)")) {
         document.getElementById("paletteSelect").value = document.getElementById("paletteSelect").value + " (Custom)";
     } 
