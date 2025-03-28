@@ -26,21 +26,16 @@ var last = Date.now();
 requestAnimationFrame(function tick() {
     if (Date.now() - last >= getMSFromFPS(fps)) { 
         let fpsFactor = 60 / fps
-        //amplitude = maxAmplitude
         if (amplitude > 0.0) {
             amplitude -= 0.08 * fpsFactor
         }
         else {
             amplitude = 0
         }
-        
-        console.log(amplitude)
         let scale = 2 / (3 - Math.cos(2*last)) * amplitude;
         
         xPos = scale * Math.cos(last) * amplitude;
         yPos = scale * Math.sin(2 * last) / 2 * amplitude;
-        
-        //console.log(yPos)
         compileGraphic();
         drawChimera();
         last = Date.now();
