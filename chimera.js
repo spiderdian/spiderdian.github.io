@@ -95,6 +95,7 @@ const sounds = {
 const svgElementStart = '<svg version="1.0" xmlns="http://www.w3.org/2000/svg"\nwidth="1200.000000pt" height="1600.000000pt" viewBox="0 0 1200.000000 1600.000000"\n preserveAspectRatio="xMidYMid meet">'
 const svgElementEnd = '</svg>'
 const renderOrder = ['hair_back', 'wings', 'tail', 'legs_feet', 'legs_hips', 'legs_full', 'torso', 'neck', 'arms', 'shoulders', 'ears', 'head', 'nose', 'mouth', 'eyes', 'horns', 'hair_front', 'horns_front']
+const displayOrder = ['eyes', 'nose', 'mouth', 'ears', 'horns_front', 'horns', 'head', 'hair_front', 'hair_back', 'neck', 'shoulders', 'arms', 'torso', 'wings', 'tail', 'legs_hips', 'legs_feet', 'legs_full']
 const layerList = ["skin1", "scale1", "skin2", "fur1", "fur2", "sclera", "iris", "color"]
 const niceNames = {
     "skin1": "Skin",
@@ -195,11 +196,11 @@ let chimeraSVGData = {
 };
 
 function initSideBarElements() {
-    for (let i = 0; i < renderOrder.length; i++) {
-        let parts = partsList[renderOrder[i]]
+    for (let i = 0; i < displayOrder.length; i++) {
+        let parts = partsList[displayOrder[i]]
         let div = document.createElement('div'); //creates the divider
         let img = document.createElement('img'); //creates the image
-        img.src = 'icons/' + renderOrder[i] + '.png';
+        img.src = 'icons/' + displayOrder[i] + '.png';
         let src = document.getElementById('partContainer');
         div.className = 'dropdown';
         div.appendChild(img);
@@ -210,17 +211,17 @@ function initSideBarElements() {
             let button = document.createElement('button'); //creates the button
             button.className = "update_part"
             button.onclick = function(){
-                updatePartType(renderOrder[i], parts[j]);
+                updatePartType(displayOrder[i], parts[j]);
             };
             let buttonText = document.createTextNode(parts[j]['partName']);
             button.appendChild(buttonText);
             div2.appendChild(button);
         }
-        if ("enabled" in chimeraSVGData[renderOrder[i]]) { //if the part has an enabled key, randomize
+        if ("enabled" in chimeraSVGData[displayOrder[i]]) { //if the part has an enabled key, randomize
             let disableButton = document.createElement('button'); //creates the button
             disableButton.className = "update_part"
             disableButton.onclick = function(){
-                updatePartType(renderOrder[i], null);
+                updatePartType(displayOrder[i], null);
             };
             let disableButtonText = document.createTextNode("None");
             disableButton.appendChild(disableButtonText);
