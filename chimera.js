@@ -249,6 +249,8 @@ function updatePartType(partString, partType) {
     else {
         chimeraSVGData[partString]['enabled'] = false
     }
+    if (amplitude < maxAmplitude)
+        amplitude += 1.5;
     playSound('select', 0.2);
     //console.log(chimeraSVGData[partString]['data'])
     //compileGraphic();
@@ -390,6 +392,8 @@ function initSideBar2() {
                     chimeraConfigData['paletteIndex'] = newPaletteIndex;
                     //console.log(chimeraConfigData['palette'])
                     updateSwatchesToPalette();
+                    if (amplitude < maxAmplitude)
+                        amplitude += 1.5;
                     playSound('select', 0.2);
                     //compileGraphic()
                     //drawChimera()  
@@ -441,6 +445,8 @@ function initOtherPaletteSwatches() {
 function updateSingleSwatch(element, targetLayer, targetColor) {
     element.parentElement.parentElement.style.backgroundColor = targetColor
     chimeraConfigData['palette']['data'][targetLayer] = targetColor
+    if (amplitude < maxAmplitude)
+        amplitude += 1.5;
     playSound('select', 0.2);
     //compileGraphic()
     //drawChimera();
