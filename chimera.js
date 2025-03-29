@@ -4,8 +4,11 @@ let ctx = canvas.getContext("2d");
 
 let oldTimeStamp = 0
 // manually set canvas dimension attributes in here
-canvas.setAttribute('width', '1200');
-canvas.setAttribute('height', '1600');
+let canvasX = 1200;
+let canvasY = 1600;
+
+canvas.setAttribute('width', canvasX);
+canvas.setAttribute('height', canvasY);
 
 let xPos = 0.0
 let yPos = 0.0
