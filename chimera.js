@@ -14,6 +14,44 @@ let chimeraGraphic = ""
 let amplitude = 0.0;
 let maxAmplitude = 5.0;
 
+
+//split body into sections
+//lowest = legs_feet and legs_full
+//lower = legs_hips and tail
+//middle = torso
+//high = neck and shoulders and arms
+//highest = all head parts and hairs
+
+let offsetFactor = 1.0;
+const pixelOffset = Object.freeze({
+    LOWEST:   0.0,
+    LOW:  1.0,
+    MIDDLE: 2.0,
+    HIGH: 3.0,
+    HIGHEST: 4.0
+});
+
+let animationOffsets = {
+    'hair_back': pixelOffset.HIGHEST, 
+    'wings': pixelOffset.MIDDLE, 
+    'tail': pixelOffset.LOW,
+    'legs_feet': pixelOffset.LOWEST, 
+    'legs_hips': pixelOffset.LOW,
+    'legs_full': pixelOffset.LOWEST,
+    'torso': pixelOffset.MIDDLE,
+    'neck': pixelOffset.HIGH,
+    'arms': pixelOffset.HIGH,
+    'shoulders': pixelOffset.HIGH,
+    'ears': pixelOffset.HIGHEST,
+    'head': pixelOffset.HIGHEST,
+    'nose': pixelOffset.HIGHEST,
+    'mouth': pixelOffset.HIGHEST,
+    'eyes': pixelOffset.HIGHEST,
+    'horns': pixelOffset.HIGHEST,
+    'hair_front': pixelOffset.HIGHEST,
+    'horns_front': pixelOffset.HIGHEST,
+}
+
 // 12 fps = 83.333 MS - 17 MS / 2 = ~75 ms
 const fps = 24
 const bounceFactor = 0.5;
@@ -22,24 +60,28 @@ function getMSFromFPS(fps) {
     return 1000 / fps - callBackMS / 2;
 }
 //last timestamp
-var last = Date.now();
+let last_frame = Date.now();
+let last_update = Date.now();
+
 requestAnimationFrame(function tick() {
-    if (Date.now() - last >= getMSFromFPS(fps)) { 
+    if (Date.now() - last_frame >= getMSFromFPS(fps)) { 
         let fpsFactor = 60 / fps
+        offsetFactor = (Math.sin(last_frame / (150 * fpsFactor) ) + 1.0)
         if (amplitude > 0.0) {
             amplitude -= 0.08 * fpsFactor
         }
         else {
             amplitude = 0
         }
-        let scale = 2 / (3 - Math.cos(2*last)) * amplitude;
+        let scale = 2 / (3 - Math.cos(2*last_frame)) * amplitude;
         
-        xPos = scale * Math.cos(last) * amplitude;
-        yPos = scale * Math.sin(2 * last) / 2 * amplitude;
+        xPos = scale * Math.cos(last_frame) * amplitude;
+        yPos = scale * Math.sin(2 * last_frame) / 2 * amplitude;
         compileGraphic();
         drawChimera();
-        last = Date.now();
+        last_frame = Date.now();
     }
+
     requestAnimationFrame(tick);
 });
 
@@ -242,7 +284,7 @@ function randomize() {
     document.getElementById("paletteSelect").value = paletteList[paletteIndex]['name'];
 }
 
-function generatePartGrahpic(part, altEnabled) {
+function generatePartGrahpic(layer, part, altEnabled) {
     let graphic = ""
     for (let i = 0; i < part.maskOrder.length; i++) {
         let data = part[!altEnabled ? 'svgData' : 'svgDataAlt'][i]
@@ -256,7 +298,8 @@ function generatePartGrahpic(part, altEnabled) {
         }
         const graphicsRegex = /<g[\s\S]*<\/g>/
         //create a string of graphics to prevent out-of-order svg loading, and wrap the graphic data in an extra graphic layer to allow us to theoretically animate it. maybe
-        let wrapper = '<g transform="translate(' + xPos + ',' + yPos + ')">\n' + data.match(graphicsRegex) + '\n</g>'
+        //console.log(yPos + animationOffsets[layer])
+        let wrapper = '<g transform="translate(' + (xPos) + ',' + (yPos + (animationOffsets[layer]  * offsetFactor)) + ')">\n' + data.match(graphicsRegex) + '\n</g>'
         //console.log(wrapper)
         graphic += wrapper
     }
@@ -272,29 +315,29 @@ function compileGraphic() {
                 //console.log("hi")
                 if (renderOrder[i] == 'hair_front') { //if horns are enabled, render the alt for hair front
                     if (chimeraSVGData['horns_front']['enabled']) {
-                        compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], true)
+                        compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], true)
                     } else {
-                        compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], false)
+                        compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
                     }
                 } // all other optional parts
                 else if (renderOrder[i] == 'tail') {
                     //console.log(chimeraConfigData.legsFullToggled)
-                    if (!chimeraConfigData.legsFullToggled) compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], false)
+                    if (!chimeraConfigData.legsFullToggled) compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
                 }
                 else {
-                    compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], false)
+                    compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
                 }
             }
         }
         else { //guaranteed parts
             if (renderOrder[i] == 'legs_full') { //if legsFullToggled is true, render
-                if (chimeraConfigData.legsFullToggled) compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], false)
+                if (chimeraConfigData.legsFullToggled) compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
             }
             else if ((renderOrder[i] == 'legs_hips' || renderOrder[i] == 'legs_feet')) { //if legsFullToggled is false, render
-                if (!chimeraConfigData.legsFullToggled) compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], false)
+                if (!chimeraConfigData.legsFullToggled) compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
             }     
             else {
-                compiledGraphic += generatePartGrahpic(chimeraSVGData[renderOrder[i]]['data'], false)
+                compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
             }
         }
     }
