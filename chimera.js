@@ -295,7 +295,8 @@ function generatePartGrahpic(layer, part, altEnabled) {
         const graphicsRegex = /<g[\s\S]*<\/g>/
         //create a string of graphics to prevent out-of-order svg loading, and wrap the graphic data in an extra graphic layer to allow us to theoretically animate it. maybe
         //console.log(yPos + animationOffsets[layer])
-        let wrapper = '<g transform="translate(' + (xPos) + ',' + (yPos + (animationOffsets[layer]  * offsetFactor)) + ')">\n' + data.match(graphicsRegex) + '\n</g>'
+        console.log(2 - offsetFactor)
+        let wrapper = '<g transform="scale(1.0 ' + (1 - offsetFactor * 0.001) + ') translate(' + (xPos) + ',' + (yPos + (animationOffsets[layer]  * offsetFactor)) + ')">\n' + data.match(graphicsRegex) + '\n</g>'
         //console.log(wrapper)
         graphic += wrapper
     }
