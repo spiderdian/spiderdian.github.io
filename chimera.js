@@ -54,14 +54,12 @@ let animationOffsets = {
 
 // 12 fps = 83.333 MS - 17 MS / 2 = ~75 ms
 const fps = 24
-const bounceFactor = 0.5;
 const callBackMS = 17 //approximately 17 ms for function callback
 function getMSFromFPS(fps) {
     return 1000 / fps - callBackMS / 2;
 }
 //last timestamp
 let last_frame = Date.now();
-let last_update = Date.now();
 
 requestAnimationFrame(function tick() {
     if (Date.now() - last_frame >= getMSFromFPS(fps)) { 
@@ -84,9 +82,6 @@ requestAnimationFrame(function tick() {
 
     requestAnimationFrame(tick);
 });
-
-
-
 
 const sounds = {
     "shuffle": new Audio('sounds/shuffle.ogg')
