@@ -87,7 +87,8 @@ requestAnimationFrame(function tick() {
 });
 
 const sounds = {
-    "shuffle": new Audio('sounds/shuffle.ogg')
+    "shuffle": new Audio('sounds/shuffle.ogg'),
+    "select" : new Audio('sounds/select.ogg')
 }
 
 const svgElementStart = '<svg version="1.0" xmlns="http://www.w3.org/2000/svg"\nwidth="1200.000000pt" height="1600.000000pt" viewBox="0 0 1200.000000 1600.000000"\n preserveAspectRatio="xMidYMid meet">'
@@ -248,7 +249,7 @@ function updatePartType(partString, partType) {
     else {
         chimeraSVGData[partString]['enabled'] = false
     }
-    
+    playSound('select', 0.2);
     //console.log(chimeraSVGData[partString]['data'])
     //compileGraphic();
     //drawChimera();
@@ -389,6 +390,7 @@ function initSideBar2() {
                     chimeraConfigData['paletteIndex'] = newPaletteIndex;
                     //console.log(chimeraConfigData['palette'])
                     updateSwatchesToPalette();
+                    playSound('select', 0.2);
                     //compileGraphic()
                     //drawChimera()  
                 }
@@ -439,6 +441,7 @@ function initOtherPaletteSwatches() {
 function updateSingleSwatch(element, targetLayer, targetColor) {
     element.parentElement.parentElement.style.backgroundColor = targetColor
     chimeraConfigData['palette']['data'][targetLayer] = targetColor
+    playSound('select', 0.2);
     //compileGraphic()
     //drawChimera();
     if (!(document.getElementById("paletteSelect").value).endsWith(" (Custom)")) {
