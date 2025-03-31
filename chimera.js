@@ -116,7 +116,9 @@ async function playSound(sound, volume) {
     } else {
         sounds[sound].volume = 1
     }
+    let rate = 0.8 + (amplitude / maxAmplitude) //lol 
     sounds[sound].load();
+    sounds[sound].playbackRate = rate;
     sounds[sound].play().catch((e)=>{
         
      })
