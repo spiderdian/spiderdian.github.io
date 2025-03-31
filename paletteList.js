@@ -492,17 +492,17 @@ const paletteList = [
         }
     },
     {
-        "name": "Synthwave",
+        "name": "Synthrave",
         "data":
         {
-            "skin1": "#0E022D",
-            "scale1": "#E99D5A",
-            "skin2": "#E96668",
-            "fur1": "#843187",
-            "fur2": "#67295A",
-            "sclera": "#02010A",
-            "iris": "#6E8AF9",
-            "color": "#3D1931"
+            "skin1": "#321450",
+            "scale1": "#DE004E",
+            "skin2": "#29132E",
+            "fur1": "#2E2157",
+            "fur2": "#F222FF",
+            "sclera": "#FF901F",
+            "iris": "#FFD319",
+            "color": "#FF2975"
         }
     },
     {
