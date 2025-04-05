@@ -2,10 +2,11 @@ import {BodyPart,Palette} from "./ChimeraParts.js";
 let canvas = document.getElementById("chimera");
 let ctx = canvas.getContext("2d");
 
-let oldTimeStamp = 0
+
 // manually set canvas dimension attributes in here
-let canvasX = 1200;
-let canvasY = 1600;
+let canvasX = 600;
+let canvasY = 800;
+
 
 canvas.setAttribute('width', canvasX);
 canvas.setAttribute('height', canvasY);
@@ -16,7 +17,7 @@ let img = new Image();
 let chimeraGraphic = ""
 let amplitude = 0.0;
 let maxAmplitude = 5.0;
-
+let bounceTimer = 0.0
 
 //split body into sections
 //lowest = legs_feet and legs_full
@@ -66,19 +67,6 @@ let last_frame = Date.now();
 
 requestAnimationFrame(function tick() {
     if (Date.now() - last_frame >= getMSFromFPS(fps)) { 
-        let fpsFactor = 60 / fps
-        offsetFactor = (Math.sin(last_frame / (150 * fpsFactor) ) + 1.0)
-        if (amplitude > 0.0) {
-            amplitude -= 0.08 * fpsFactor
-        }
-        else {
-            amplitude = 0
-        }
-        let scale = 2 / (3 - Math.cos(2*last_frame)) * amplitude;
-        
-        xPos = scale * Math.cos(last_frame) * amplitude;
-        yPos = scale * Math.sin(2 * last_frame) / 2 * amplitude;
-        compileGraphic();
         drawChimera();
         last_frame = Date.now();
     }
@@ -91,7 +79,7 @@ const sounds = {
     "select" : new Audio('sounds/select.ogg')
 }
 
-const svgElementStart = '<svg version="1.0" xmlns="http://www.w3.org/2000/svg"\nwidth="1200.000000pt" height="1600.000000pt" viewBox="0 0 1200.000000 1600.000000"\n preserveAspectRatio="xMidYMid meet">'
+const svgElementStart = '<svg version="1.0" xmlns="http://www.w3.org/2000/svg"\nwidth="1200.000000pt" height="1600.000000pt" viewBox="0 0 1200.000000 1600.000000"\n preserveAspectRatio="none">'
 const svgElementEnd = '</svg>'
 const renderOrder = ['hair_back', 'wings', 'tail', 'legs_feet', 'legs_hips', 'legs_full', 'torso', 'neck', 'arms', 'shoulders', 'ears', 'head', 'nose', 'mouth', 'eyes', 'horns', 'hair_front', 'horns_front']
 const displayOrder = ['eyes', 'nose', 'mouth', 'ears', 'horns_front', 'horns', 'head', 'hair_front', 'hair_back', 'neck', 'shoulders', 'arms', 'torso', 'wings', 'tail', 'legs_hips', 'legs_feet', 'legs_full']
@@ -128,10 +116,9 @@ $('button.randomize').on('click', function() {
     playSound('shuffle', 0.2);
     randomize();
     updateSwatchesToPalette();
-    //compileGraphic();
-    //drawChimera(); 
     if (amplitude < maxAmplitude)
         amplitude += 2.0;
+    bounceTimer = 1.0
 });
 
 $('button.openbtn').on('click', function() {
@@ -254,9 +241,6 @@ function updatePartType(partString, partType) {
     if (amplitude < maxAmplitude)
         amplitude += 1.5;
     playSound('select', 0.2);
-    //console.log(chimeraSVGData[partString]['data'])
-    //compileGraphic();
-    //drawChimera();
 }
 
 // Return the list index of the part type, defaults to 0 if it cannot be found
@@ -303,8 +287,8 @@ function generatePartGrahpic(layer, part, altEnabled) {
         const graphicsRegex = /<g[\s\S]*<\/g>/
         //create a string of graphics to prevent out-of-order svg loading, and wrap the graphic data in an extra graphic layer to allow us to theoretically animate it. maybe
         //console.log(yPos + animationOffsets[layer])
-       
-        let wrapper = '<g transform="scale(1.0 ' + (1 - offsetFactor * 0.001) + ') translate(' + (xPos) + ',' + (yPos + (animationOffsets[layer]  * offsetFactor)) + ')">\n' + data.match(graphicsRegex) + '\n</g>'
+        //
+        let wrapper = '<g transform="scale(1.0' + (1 - offsetFactor * 0.001) + ') translate(' + (xPos) + ',' + (yPos + (animationOffsets[layer]  * offsetFactor)) + ')">\n' + data.match(graphicsRegex) + '\n</g>'
         //console.log(wrapper)
         graphic += wrapper
     }
@@ -349,13 +333,48 @@ function compileGraphic() {
     chimeraGraphic = compiledGraphic
 }
 
+//ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 async function drawChimera() {
+    let fpsFactor = 60 / fps
+    offsetFactor = (Math.sin(last_frame / (150 * fpsFactor) ) + 1.0)
+    if (amplitude > 0.0) {
+        amplitude -= 0.08 * fpsFactor
+    }
+    else {
+        amplitude = 0.0
+    }
+    if (bounceTimer > 0.0) {
+        bounceTimer -= 0.1 * fpsFactor
+    }
+    else {
+        bounceTimer = 0.0
+    }
+
+
+    let scale = 2 / (3 - Math.cos(2*last_frame)) * amplitude;
+    
+    xPos = scale * Math.cos(last_frame) * amplitude;
+    yPos = scale * Math.sin(2 * last_frame) / 2 * amplitude;
+    
+    compileGraphic();
+
+    let xFactor = -Math.sin((2 * Math.PI) * bounceTimer)/32 + 1
+    let yFactor =  Math.sin((2 * Math.PI) * bounceTimer)/64 + 1
+
     img.src = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgElementStart + chimeraGraphic + svgElementEnd);
-    img.onload = function() {
-        ctx.scale(0.5, 0.5);
+    img.onload = function() {     
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        ctx.scale(2, 2);
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        ctx.save();
+
+        ctx.translate(centerX, centerY)
+
+        ctx.scale(xFactor, yFactor)
+        ctx.drawImage(img, -centerX, -centerY, canvas.width, canvas.height);
+        
+        ctx.restore();
+        
     }
 }
 
@@ -397,8 +416,6 @@ function initSideBar2() {
                     if (amplitude < maxAmplitude)
                         amplitude += 1.5;
                     playSound('select', 0.2);
-                    //compileGraphic()
-                    //drawChimera()  
                 }
             }
         }
@@ -450,8 +467,6 @@ function updateSingleSwatch(element, targetLayer, targetColor) {
     if (amplitude < maxAmplitude)
         amplitude += 1.5;
     playSound('select', 0.2);
-    //compileGraphic()
-    //drawChimera();
     if (!(document.getElementById("paletteSelect").value).endsWith(" (Custom)")) {
         document.getElementById("paletteSelect").value = document.getElementById("paletteSelect").value + " (Custom)";
     } 
