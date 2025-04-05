@@ -104,7 +104,7 @@ async function playSound(sound, volume) {
     } else {
         sounds[sound].volume = 1
     }
-    let rate = 0.8 + (amplitude / maxAmplitude) //lol 
+    let rate = 1.0 + (amplitude / maxAmplitude) * 0.5  //lol 
     sounds[sound].load();
     sounds[sound].playbackRate = rate;
     sounds[sound].play().catch((e)=>{
@@ -369,8 +369,8 @@ async function drawChimera() {
         ctx.save();
 
         ctx.translate(centerX, centerY)
-
         ctx.scale(xFactor, yFactor)
+
         ctx.drawImage(img, -centerX, -centerY, canvas.width, canvas.height);
         
         ctx.restore();
