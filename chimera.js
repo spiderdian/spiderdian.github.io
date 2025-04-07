@@ -16,7 +16,7 @@ let yPos = 0.0
 let img = new Image();
 let chimeraGraphic = ""
 let amplitude = 0.0;
-let maxAmplitude = 6.0;
+let maxAmplitude = 8.0;
 let bounceTimer = 0.0
 
 //split body into sections
@@ -341,7 +341,7 @@ async function drawChimera() {
     let fpsFactor = 60 / fps
     offsetFactor = (Math.sin(last_frame / (150 * fpsFactor) ) + 1.0)
     if (amplitude > 0.0) {
-        amplitude -= 0.2 * fpsFactor
+        amplitude -= 0.24 * fpsFactor
     }
     else {
         amplitude = 0.0
