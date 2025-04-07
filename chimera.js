@@ -16,7 +16,7 @@ let yPos = 0.0
 let img = new Image();
 let chimeraGraphic = ""
 let amplitude = 0.0;
-let maxAmplitude = 5.0;
+let maxAmplitude = 6.0;
 let bounceTimer = 0.0
 
 //split body into sections
@@ -116,8 +116,9 @@ $('button.randomize').on('click', function() {
     playSound('shuffle', 0.2);
     randomize();
     updateSwatchesToPalette();
-    if (amplitude < maxAmplitude)
-        amplitude += 2.0;
+    amplitude += 3.5
+    if (amplitude > maxAmplitude) 
+        amplitude = maxAmplitude
     bounceTimer = 1.0
 });
 
@@ -238,8 +239,10 @@ function updatePartType(partString, partType) {
     else {
         chimeraSVGData[partString]['enabled'] = false
     }
-    if (amplitude < maxAmplitude)
-        amplitude += 1.5;
+
+    amplitude += 2.5;
+    if (amplitude > maxAmplitude) 
+        amplitude = maxAmplitude
     playSound('select', 0.2);
 }
 
@@ -338,7 +341,7 @@ async function drawChimera() {
     let fpsFactor = 60 / fps
     offsetFactor = (Math.sin(last_frame / (150 * fpsFactor) ) + 1.0)
     if (amplitude > 0.0) {
-        amplitude -= 0.08 * fpsFactor
+        amplitude -= 0.2 * fpsFactor
     }
     else {
         amplitude = 0.0
@@ -351,7 +354,7 @@ async function drawChimera() {
     }
 
 
-    let scale = 2 / (3 - Math.cos(2*last_frame)) * amplitude;
+    let scale = 1 / (3 - Math.cos(2*last_frame)) * amplitude;
     
     xPos = scale * Math.cos(last_frame) * amplitude;
     yPos = scale * Math.sin(2 * last_frame) / 2 * amplitude;
@@ -413,8 +416,9 @@ function initSideBar2() {
                     chimeraConfigData['paletteIndex'] = newPaletteIndex;
                     //console.log(chimeraConfigData['palette'])
                     updateSwatchesToPalette();
-                    if (amplitude < maxAmplitude)
-                        amplitude += 1.5;
+                    amplitude += 2.5
+                    if (amplitude > maxAmplitude) 
+                        amplitude = maxAmplitude
                     playSound('select', 0.2);
                 }
             }
@@ -464,8 +468,9 @@ function initOtherPaletteSwatches() {
 function updateSingleSwatch(element, targetLayer, targetColor) {
     element.parentElement.parentElement.style.backgroundColor = targetColor
     chimeraConfigData['palette']['data'][targetLayer] = targetColor
-    if (amplitude < maxAmplitude)
-        amplitude += 1.5;
+    amplitude += 2.5
+    if (amplitude > maxAmplitude) 
+        amplitude = maxAmplitude
     playSound('select', 0.2);
     if (!(document.getElementById("paletteSelect").value).endsWith(" (Custom)")) {
         document.getElementById("paletteSelect").value = document.getElementById("paletteSelect").value + " (Custom)";
