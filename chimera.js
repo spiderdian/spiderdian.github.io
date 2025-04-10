@@ -7,8 +7,6 @@ let ctx = canvas.getContext("2d");
 let canvasX = 1200;
 let canvasY = 800;
 
-console.log(partsList)
-
 canvas.setAttribute('width', canvasX);
 canvas.setAttribute('height', canvasY);
 
