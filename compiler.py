@@ -26,13 +26,21 @@ def return_svgs(filedata):
     svg_data = []
     svg_regex = r"(<svg[\s\S]*?<\/svg>)" #lazy 
     match = re.search(svg_regex, filedata)
+    
     if match:
-        svg_data.append(match.group(1))
+        
+        width_regex = r'width="(\d*)[\.\d*]*p[t|x]"'
+        # find if the svg is an XL and shift accordingly
+        svg_width = re.search(width_regex, match.group(1)).group(1)
+        print(svg_width)
+
+
+        svg_data.append({"data": match.group(1), "is_xl": True if svg_width == 2400 else False})
         filedata = filedata.replace(match.group(1), "")
         # check for alt
         match2 = re.search(svg_regex, filedata)
         if match2:
-            svg_data.append(match2.group(1))
+            svg_data.append({"data": match2.group(1), "is_xl": True if svg_width == 2400 else False})
     return svg_data
 
 
@@ -55,12 +63,7 @@ def list_files_pathlib(path):
                 #print(len(svg_content))  
                 elem_type = filename_formatted[0]                 # species
                 elem_layer = filename_formatted[-1][:-4]          # layer
-                #if elem_part == 'hair_front':
-                    #print(f'-------{elem_type}---------')
-                    #print(f'-------{elem_layer}---------')
-                    
 
-                # Define new part if not present
                 if elem_part not in all_parts:
                     all_parts[elem_part] = []
 
@@ -70,14 +73,15 @@ def list_files_pathlib(path):
                         "partName": elem_type_name,
                         "partType": elem_type,
                         "maskOrder": [elem_layer],
-                        "svgData": [svg_content[0]],
-                        "svgDataAlt": [svg_content[1]] if len(svg_content)>1 else [""]
+                        "svgData": [svg_content[0]['data']],
+                        "svgDataAlt": [svg_content[1]['data']] if len(svg_content)>1 else [""],
+                        "isXL": svg_content[0]['is_xl']
                     }
                     all_parts[elem_part].append(new_type)
                 # If type is present, append new data to the rendering order
                 elif elem_type in get_types(all_parts[elem_part]):
                     index = find_index(all_parts[elem_part], 'part_type', elem_type)
-                    update_type_data(elem_part, index, elem_layer, svg_content[0], svg_content[1] if len(svg_content)>1 else "")
+                    update_type_data(elem_part, index, elem_layer, svg_content[0]['data'], svg_content[1]['data'] if len(svg_content)>1 else "")
 
 if __name__ == '__main__':
     directory_path = Path('./images/')

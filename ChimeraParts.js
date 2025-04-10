@@ -6,6 +6,7 @@ class BodyPart {
         this.svgData = part.svgData;
         this.svgDataAlt = part.svgDataAlt;
         this.maskOrder = part.maskOrder;
+        this.isXL = part.isXL;
     }
 }
 //deep copy 
