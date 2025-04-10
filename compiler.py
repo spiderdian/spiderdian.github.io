@@ -32,9 +32,6 @@ def return_svgs(filedata):
         width_regex = r'width="(\d*)[\.\d*]*p[t|x]"'
         # find if the svg is an XL and shift accordingly
         svg_width = re.search(width_regex, match.group(1)).group(1)
-        print(svg_width)
-
-
         svg_data.append({"data": match.group(1), "is_xl": True if svg_width == 2400 else False})
         filedata = filedata.replace(match.group(1), "")
         # check for alt
