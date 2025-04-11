@@ -29,7 +29,7 @@ def return_svgs(filedata):
     
     if match:
         
-        width_regex = r'width="(\d*)[\.\d*]*p[t|x]"'
+        width_regex = r'width="(\d*)[\.\d*]*p?[t|x]?"'
         # find if the svg is an XL and shift accordingly
         svg_width = re.search(width_regex, match.group(1)).group(1)
         svg_data.append({"data": match.group(1), "is_xl": True if svg_width == 2400 else False})
@@ -48,7 +48,7 @@ def list_files_pathlib(path):
         elif entry.is_file():
             with open(entry, 'r') as file:
                 image_path = str(entry).split("\\")                     # Only works with windows but whatever lol
-                #print(image_path)                    
+                # print(image_path)                    
                                              # image file svg data to be compiled into a single file, eventually
                 
                 elem_part = image_path[1]                               # bodypart

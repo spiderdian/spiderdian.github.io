@@ -49,6 +49,7 @@ let animationOffsets = {
     'head': pixelOffset.HIGHEST,
     'nose': pixelOffset.HIGHEST,
     'mouth': pixelOffset.HIGHEST,
+    'muzzle': pixelOffset.HIGHEST,
     'eyes': pixelOffset.HIGHEST,
     'horns': pixelOffset.HIGHEST,
     'hair_front': pixelOffset.HIGHEST,
@@ -80,8 +81,8 @@ const sounds = {
 
 const svgElementStart = '<svg version="1.0" xmlns="http://www.w3.org/2000/svg"\nwidth="2400.000000pt" height="1600.000000pt" viewBox="0 0 2400.000000 1600.000000"\n preserveAspectRatio="none">'
 const svgElementEnd = '</svg>'
-const renderOrder = ['hair_back', 'wings', 'tail', 'legs_feet', 'legs_hips', 'legs_full', 'torso', 'neck', 'arms', 'shoulders', 'ears', 'head', 'nose', 'mouth', 'eyes', 'horns', 'hair_front', 'horns_front']
-const displayOrder = ['eyes', 'nose', 'mouth', 'ears', 'horns_front', 'horns', 'head', 'hair_front', 'hair_back', 'neck', 'shoulders', 'arms', 'torso', 'wings', 'tail', 'legs_hips', 'legs_feet', 'legs_full']
+const renderOrder = ['hair_back', 'wings', 'tail', 'legs_feet', 'legs_hips', 'legs_full', 'torso', 'neck', 'arms', 'shoulders', 'ears', 'head', 'nose', 'mouth', 'muzzle', 'eyes', 'horns', 'hair_front', 'horns_front']
+const displayOrder = ['eyes', 'ears', 'nose', 'mouth', 'muzzle', 'horns_front', 'horns', 'head', 'hair_front', 'hair_back', 'neck', 'shoulders', 'arms', 'torso', 'wings', 'tail', 'legs_hips', 'legs_feet', 'legs_full']
 const layerList = ["skin1", "scale1", "skin2", "fur1", "fur2", "sclera", "iris", "color"]
 const niceNames = {
     "skin1": "Skin",
@@ -158,7 +159,9 @@ let chimeraConfigData = {
     palette: new Palette(paletteList[0]),
     paletteIndex: 0,
     legsFullToggled: false, //keeping this separate as this is the only one with weird logic
+    muzzleToggled: false, //keeping this separate as this is the only one with weird logic
     legsFullToggleChance: 0.20, //enabled 20% of the time
+    muzzleToggleChance: 0.30,
 }
 
 //if 'enabled' is a key it is marked as optional during randomization, add the chance for it to be enabled out of 1, which is 100%
@@ -176,6 +179,7 @@ let chimeraSVGData = {
     head: { data: new BodyPart(getListIndex('head', 'base')),},
     nose: { data: new BodyPart(getListIndex('nose', 'base')),},
     mouth: { data: new BodyPart(getListIndex('mouth', 'base')),},
+    muzzle: { data: new BodyPart(getListIndex('muzzle', 'base')),},
     eyes: { data: new BodyPart(getListIndex('eyes', 'base')),},
     hair_front: { data: new BodyPart(getListIndex('hair_front', 'default')), enabled: true, chance: 0.85},
     hair_back: { data: new BodyPart(getListIndex('hair_back', 'longer')), enabled: true, chance: 0.85},
@@ -230,6 +234,12 @@ function updatePartType(partString, partType) {
         else if (partString == 'legs_hips' || partString == 'legs_feet' || partString == 'tail') {
             chimeraConfigData['legsFullToggled'] = false
         }
+        else if (partString == 'muzzle') {
+            chimeraConfigData['muzzleToggled'] = true
+        }
+        else if (partString == 'mouth' || partString == 'nose') {
+            chimeraConfigData['muzzleToggled'] = false
+        }
         chimeraSVGData[partString]['data'] = new BodyPart(partType)
         if ("enabled" in chimeraSVGData[partString]) { //if the part has an enabled key, randomize
             chimeraSVGData[partString]['enabled'] = true
@@ -261,7 +271,8 @@ function randomize() {
     let paletteIndex = getRandomNumber(paletteList.length)
     chimeraConfigData['palette'] = new Palette(paletteList[paletteIndex]); //= paletteList[];
     chimeraConfigData['paletteIndex'] = paletteIndex;
-    chimeraConfigData['legsFullToggled'] = Math.random() <= chimeraConfigData['legsFullToggleChance'] ? true : false; // enabled 80% of the time
+    chimeraConfigData['legsFullToggled'] = Math.random() <= chimeraConfigData['legsFullToggleChance'] ? true : false; // toggled 20% of the time
+    chimeraConfigData['muzzleToggled'] = Math.random() <= chimeraConfigData['muzzleToggleChance'] ? true : false; // toggled 20% of the time
     for (const [key, value] of Object.entries(chimeraSVGData)) {
         chimeraSVGData[key]['data'] = new BodyPart(partsList[key][getRandomNumber(partsList[key].length)])
         if ("enabled" in chimeraSVGData[key]) { //if the part has an enabled key, randomize
@@ -282,15 +293,21 @@ function generatePartGrahpic(layer, part, altEnabled) {
             data = part['svgData'][i]
         }
         const fillRegex = /fill="#[0-9a-fA-F]{6}"/
+        const fillRegexAlt = /fill:#[0-9a-fA-F]{6}/ //required for new pieces since the fill is in the style attribute
+
         //replace whatever is in the g element fill field with data from the palette, based on its layer (mask order)
         if (part.maskOrder[i] != 'line') {
             data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
+            data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
         }
         const graphicsRegex = /<g[\s\S]*<\/g>/
         //create a string of graphics to prevent out-of-order svg loading, and wrap the graphic data in an extra graphic layer to allow us to theoretically animate it. maybe
         //console.log(yPos + animationOffsets[layer])
         //
-        //console.log(part['isXL'])
+        if (part['isXL']) {
+            console.log(part['isXL'])
+        }
+        
         let xlString = part['isXL'] ? '' :  ' translate(' + canvasX / 2 + ' 0)'
         let wrapper = '<g transform="scale(1.0' + (1 - offsetFactor * 0.001) + ')' + xlString + ' translate(' + (xPos) + ',' + (yPos + (animationOffsets[layer]  * offsetFactor)) + ')">\n' + data.match(graphicsRegex) + '\n</g>'
         //console.log(wrapper)
@@ -329,6 +346,12 @@ function compileGraphic() {
             else if ((renderOrder[i] == 'legs_hips' || renderOrder[i] == 'legs_feet')) { //if legsFullToggled is false, render
                 if (!chimeraConfigData.legsFullToggled) compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
             }     
+            else if ((renderOrder[i] == 'muzzle')) { //if muzzleToggled is true, render
+                if (chimeraConfigData.muzzleToggled) compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
+            }    
+            else if ((renderOrder[i] == 'mouth' || renderOrder[i] == 'nose')) { //if muzzleToggled is false, render
+                if (!chimeraConfigData.muzzleToggled) compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
+            }            
             else {
                 compiledGraphic += generatePartGrahpic(renderOrder[i], chimeraSVGData[renderOrder[i]]['data'], false)
             }
