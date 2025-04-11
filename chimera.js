@@ -162,7 +162,7 @@ let chimeraConfigData = {
     headUniqueToggled: false, //keeping this separate as this has custom logic
     legsFullToggleChance: 0.20, 
     muzzleToggleChance: 0.30,
-    headUniqueChance: 0.10,
+    headUniqueToggleChance: 0.10,
 }
 
 //if 'enabled' is a key it is marked as optional during randomization, add the chance for it to be enabled out of 1, which is 100%
