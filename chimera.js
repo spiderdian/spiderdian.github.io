@@ -166,25 +166,25 @@ let chimeraConfigData = {
 
 //if 'enabled' is a key it is marked as optional during randomization, add the chance for it to be enabled out of 1, which is 100%
 let chimeraSVGData = {
-    wings: { data: new BodyPart(getListIndex('wings', 'base')), enabled: false, chance: 0.50 },
-    tail: { data: new BodyPart(getListIndex('tail', 'base')), enabled: false, chance: 0.50},
-    legs_feet: { data: new BodyPart(getListIndex('legs_feet', 'base')),},
-    legs_hips: { data: new BodyPart(getListIndex('legs_hips', 'base')),},
-    legs_full: { data: new BodyPart(getListIndex('legs_full', 'base')),},
-    torso: { data: new BodyPart(getListIndex('torso', 'base')),},
-    arms: { data: new BodyPart(getListIndex('arms', 'base')),},
-    neck: { data: new BodyPart(getListIndex('neck', 'base')),},
-    shoulders: { data: new BodyPart(getListIndex('shoulders', 'base')),},
-    ears: { data: new BodyPart(getListIndex('ears', 'base')), enabled: true, chance: 0.75},
-    head: { data: new BodyPart(getListIndex('head', 'base')),},
-    nose: { data: new BodyPart(getListIndex('nose', 'base')),},
-    mouth: { data: new BodyPart(getListIndex('mouth', 'base')),},
-    muzzle: { data: new BodyPart(getListIndex('muzzle', 'base')),},
-    eyes: { data: new BodyPart(getListIndex('eyes', 'base')),},
-    hair_front: { data: new BodyPart(getListIndex('hair_front', 'default')), enabled: true, chance: 0.85},
-    hair_back: { data: new BodyPart(getListIndex('hair_back', 'longer')), enabled: true, chance: 0.85},
-    horns: { data: new BodyPart(getListIndex('horns', 'base')), enabled: false, chance: 0.50},
-    horns_front: { data: new BodyPart(getListIndex('horns_front', 'base')), enabled: false, chance: 0.50},
+    wings: { data: new BodyPart(getListIndex('wings', 'base')), enabled: false, chance: 0.50, secondaryEnabled: true },
+    tail: { data: new BodyPart(getListIndex('tail', 'base')), enabled: false, chance: 0.50, secondaryEnabled: true},
+    legs_feet: { data: new BodyPart(getListIndex('legs_feet', 'base')), secondaryEnabled: true},
+    legs_hips: { data: new BodyPart(getListIndex('legs_hips', 'base')), secondaryEnabled: true},
+    legs_full: { data: new BodyPart(getListIndex('legs_full', 'base')), secondaryEnabled: true},
+    torso: { data: new BodyPart(getListIndex('torso', 'base')), secondaryEnabled: true},
+    arms: { data: new BodyPart(getListIndex('arms', 'base')), secondaryEnabled: true},
+    neck: { data: new BodyPart(getListIndex('neck', 'base')), secondaryEnabled: true},
+    shoulders: { data: new BodyPart(getListIndex('shoulders', 'base')), secondaryEnabled: true},
+    ears: { data: new BodyPart(getListIndex('ears', 'base')), enabled: true, chance: 0.75, secondaryEnabled: true},
+    head: { data: new BodyPart(getListIndex('head', 'base')), secondaryEnabled: true},
+    nose: { data: new BodyPart(getListIndex('nose', 'base')), secondaryEnabled: true},
+    mouth: { data: new BodyPart(getListIndex('mouth', 'base')), secondaryEnabled: true},
+    muzzle: { data: new BodyPart(getListIndex('muzzle', 'base')), secondaryEnabled: true},
+    eyes: { data: new BodyPart(getListIndex('eyes', 'base')), secondaryEnabled: true},
+    hair_front: { data: new BodyPart(getListIndex('hair_front', 'default')), enabled: true, chance: 0.85, secondaryEnabled: true},
+    hair_back: { data: new BodyPart(getListIndex('hair_back', 'longer')), enabled: true, chance: 0.85, secondaryEnabled: true},
+    horns: { data: new BodyPart(getListIndex('horns', 'base')), enabled: false, chance: 0.50, secondaryEnabled: true},
+    horns_front: { data: new BodyPart(getListIndex('horns_front', 'base')), enabled: false, chance: 0.50, secondaryEnabled: true},
 };
 
 function initSideBarElements() {
@@ -209,7 +209,7 @@ function initSideBarElements() {
             button.appendChild(buttonText);
             div2.appendChild(button);
         }
-        if ("enabled" in chimeraSVGData[displayOrder[i]]) { //if the part has an enabled key, randomize
+        if ("enabled" in chimeraSVGData[displayOrder[i]]) { //logic for none
             let disableButton = document.createElement('button'); //creates the button
             disableButton.className = "update_part"
             disableButton.onclick = function(){
@@ -240,8 +240,16 @@ function updatePartType(partString, partType) {
         else if (partString == 'mouth' || partString == 'nose') {
             chimeraConfigData['muzzleToggled'] = false
         }
-        chimeraSVGData[partString]['data'] = new BodyPart(partType)
-        if ("enabled" in chimeraSVGData[partString]) { //if the part has an enabled key, randomize
+
+        if (chimeraSVGData[partString]['data']['partName'] == partType['partName']) { //the same part is selected
+            chimeraSVGData[partString]['secondaryEnabled'] = !chimeraSVGData[partString]['secondaryEnabled']
+        }
+        else { //a new part is selected 
+            chimeraSVGData[partString]['secondaryEnabled'] = true
+            chimeraSVGData[partString]['data'] = new BodyPart(partType)
+        }
+        
+        if ("enabled" in chimeraSVGData[partString]) { 
             chimeraSVGData[partString]['enabled'] = true
         }
     } 
@@ -278,6 +286,7 @@ function randomize() {
         if ("enabled" in chimeraSVGData[key]) { //if the part has an enabled key, randomize
             chimeraSVGData[key]['enabled'] = Math.random() <= chimeraSVGData[key]['chance'] ? true : false; // enabled 50% of the time
         }
+        chimeraSVGData[key]['secondaryEnabled'] = Math.random() <= 0.30 ? false : true;
     } //just for consistency ig? looks weird with only back enabled and not front
     if (chimeraSVGData['hair_back']['enabled']) {
         chimeraSVGData['hair_front']['enabled'] = true;
@@ -297,8 +306,16 @@ function generatePartGrahpic(layer, part, altEnabled) {
 
         //replace whatever is in the g element fill field with data from the palette, based on its layer (mask order)
         if (part.maskOrder[i] != 'line') {
-            data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
-            data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
+
+            //console.log(part.maskOrder[i])
+            if (!chimeraSVGData[layer]['secondaryEnabled'] && part.maskOrder[i] == 'fur2') {
+                data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
+                data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
+            }
+            else {
+                data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
+                data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
+            }
         }
         const graphicsRegex = /<g[\s\S]*<\/g>/
         //create a string of graphics to prevent out-of-order svg loading, and wrap the graphic data in an extra graphic layer to allow us to theoretically animate it. maybe
