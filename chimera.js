@@ -264,10 +264,7 @@ function updatePartType(partString, partType) {
             newToggle = chimeraConfigData['headUniqueToggled']
         }
         
-        console.log(chimeraSVGData[partString]['data']['partName'])
-        console.log(partType['partName'])
         if (chimeraSVGData[partString]['data']['partName'] == partType['partName'] && prevToggle == newToggle) { //the same part is selected
-            console.log("what")
             chimeraSVGData[partString]['secondaryEnabled'] = !chimeraSVGData[partString]['secondaryEnabled']
         }
         else { //a new part is selected 
