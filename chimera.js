@@ -220,7 +220,7 @@ function resetSelectedParts() {
         if (chimeraConfigData['legsFullToggled'] && (key == 'legs_hips' || key == 'legs_feet' || key == 'tail')) {
             continue
         }
-        else if (!chimeraConfigData['legsFullToggled'] && (key == 'legs_hips')) {
+        else if (!chimeraConfigData['legsFullToggled'] && (key == 'legs_full')) {
             continue
         }
 
