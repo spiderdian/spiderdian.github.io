@@ -189,8 +189,81 @@ let chimeraSVGData = {
     horns_front: { data: new BodyPart(getListIndex('horns_front', 'base')), enabled: false, chance: 0.50, secondaryEnabled: true},
 };
 
+//let test = true;
+
+
+
+
+
+// legsFullToggled: false, //keeping this separate as this has custom logic
+// muzzleToggled: false, //keeping this separate as this has custom logic
+// headUniqueToggled: false, //keeping this separate as this has custom logic
+
+
+function resetSelectedParts() {
+    //console.log("reset")
+    let partsToReset = document.getElementsByClassName("update_part_selected");
+    for (let i = partsToReset.length - 1; i >= 0; i--) { //needs to be done weirdly and specifically but whatever
+        partsToReset[i].className = "update_part"
+    }
+
+    for (const [key, value] of Object.entries(chimeraSVGData)) {
+        //muzzle logic
+        if (chimeraConfigData['muzzleToggled'] && (key == 'mouth' || key == 'nose')) {
+            continue
+        }
+        else if (!chimeraConfigData['muzzleToggled'] && (key == 'muzzle')) {
+            continue
+        }
+
+        //legs_full logic
+        if (chimeraConfigData['legsFullToggled'] && (key == 'legs_hips' || key == 'legs_feet' || key == 'tail')) {
+            continue
+        }
+        else if (!chimeraConfigData['legsFullToggled'] && (key == 'legs_hips')) {
+            continue
+        }
+
+        //head_unique logic
+        if (chimeraConfigData['headUniqueToggled'] && (key == 'hair_front' || key == 'hair_back' || key == 'head')) {
+            continue
+        }
+        else if (!chimeraConfigData['headUniqueToggled'] && (key == 'head_unique')) {
+            continue
+        }
+
+        let partID = key + '_' + chimeraSVGData[key]['data']['partType']
+        let partElement = document.getElementById(partID)
+        
+        if ("enabled" in chimeraSVGData[key]) { 
+            if (chimeraSVGData[key]['enabled']) {
+                partElement.className = "update_part_selected"
+            } else {
+                let partIDNone = key + '_none'
+                let partElementNone = document.getElementById(partIDNone)
+                partElementNone.className = "update_part_selected"
+            }
+        } else {
+            partElement.className = "update_part_selected"
+        }
+
+    }
+    //test = false
+
+
+    // for (let i = 0; i < displayOrder.length; i++) {
+    //     let partID = displayOrder[i] + '_' + chimeraSVGData[displayOrder[i]]['data']['partType']
+    //     console.log(partID)
+    //     let partElement = document.getElementById(partID);
+    //     console.log(partElement)
+    //     partElement.className = "update_part_selected"
+    // }
+}
+
 function initSideBarElements() {
     for (let i = 0; i < displayOrder.length; i++) {
+        //highlight the selected part
+
         let parts = partsList[displayOrder[i]]
         let div = document.createElement('div'); //creates the divider
         let img = document.createElement('img'); //creates the image
@@ -204,8 +277,10 @@ function initSideBarElements() {
         for (let j = 0; j < parts.length; j++) {
             let button = document.createElement('button'); //creates the button
             button.className = "update_part"
+            button.id = displayOrder[i] +'_' + parts[j]['partType']
             button.onclick = function(){
                 updatePartType(displayOrder[i], parts[j]);
+                resetSelectedParts()
             };
             let buttonText = document.createTextNode(parts[j]['partName']);
             button.appendChild(buttonText);
@@ -214,8 +289,10 @@ function initSideBarElements() {
         if ("enabled" in chimeraSVGData[displayOrder[i]]) { //logic for none
             let disableButton = document.createElement('button'); //creates the button
             disableButton.className = "update_part"
+            disableButton.id = displayOrder[i] +'_none'
             disableButton.onclick = function(){
                 updatePartType(displayOrder[i], null);
+                resetSelectedParts()
             };
             let disableButtonText = document.createTextNode("None");
             disableButton.appendChild(disableButtonText);
@@ -225,8 +302,6 @@ function initSideBarElements() {
         src.appendChild(div);
     }
 }
-
-initSideBarElements()
 
 function updatePartType(partString, partType) {
     if (partType) {
@@ -316,6 +391,7 @@ function randomize() {
         chimeraSVGData['hair_front']['enabled'] = true;
     }
     document.getElementById("paletteSelect").value = paletteList[paletteIndex]['name'];
+    resetSelectedParts()
 }
 
 function generatePartGrahpic(layer, part, altEnabled) {
@@ -597,4 +673,7 @@ function initSideBar2Display(swatch) {
     div.appendChild(customColorSwatch);
 }
 
+
+initSideBarElements()
 initSideBar2()
+resetSelectedParts()
