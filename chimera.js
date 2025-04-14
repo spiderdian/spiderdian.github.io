@@ -166,8 +166,8 @@ let chimeraConfigData = {
     wingsEnabledChance: 0.40,
     tailEnabledChance: 0.75,
     earsEnabledChance: 0.65,
-    hairFrontEnabledChance: 0.80,
-    hairBackEnabledChance: 0.40,
+    hairFrontEnabledChance: 0.90,
+    hairBackEnabledChance: 0.60,
     hornsEnabledChance: 0.45,
     hornsFrontEnabledChance: 0.30,
 }
