@@ -161,14 +161,21 @@ let chimeraConfigData = {
     muzzleToggled: false, //keeping this separate as this has custom logic
     headUniqueToggled: false, //keeping this separate as this has custom logic
     legsFullToggleChance: 0.20, 
-    muzzleToggleChance: 0.30,
+    muzzleToggleChance: 0.20,
     headUniqueToggleChance: 0.10,
+    wingsEnabledChance: 0.40,
+    tailEnabledChance: 0.75,
+    earsEnabledChance: 0.65,
+    hairFrontEnabledChance: 0.80,
+    hairBackEnabledChance: 0.40,
+    hornsEnabledChance: 0.45,
+    hornsFrontEnabledChance: 0.30,
 }
 
 //if 'enabled' is a key it is marked as optional during randomization, add the chance for it to be enabled out of 1, which is 100%
 let chimeraSVGData = {
-    wings: { data: new BodyPart(getListIndex('wings', 'base')), enabled: false, chance: 0.50, secondaryEnabled: true },
-    tail: { data: new BodyPart(getListIndex('tail', 'base')), enabled: false, chance: 0.50, secondaryEnabled: true},
+    wings: { data: new BodyPart(getListIndex('wings', 'base')), enabled: false, chance: chimeraConfigData['wingsEnabledChance'], secondaryEnabled: true },
+    tail: { data: new BodyPart(getListIndex('tail', 'base')), enabled: false, chance: chimeraConfigData['tailEnabledChance'], secondaryEnabled: true},
     legs_feet: { data: new BodyPart(getListIndex('legs_feet', 'base')), secondaryEnabled: true},
     legs_hips: { data: new BodyPart(getListIndex('legs_hips', 'base')), secondaryEnabled: true},
     legs_full: { data: new BodyPart(getListIndex('legs_full', 'base')), secondaryEnabled: true},
@@ -176,17 +183,17 @@ let chimeraSVGData = {
     arms: { data: new BodyPart(getListIndex('arms', 'base')), secondaryEnabled: true},
     neck: { data: new BodyPart(getListIndex('neck', 'base')), secondaryEnabled: true},
     shoulders: { data: new BodyPart(getListIndex('shoulders', 'base')), secondaryEnabled: true},
-    ears: { data: new BodyPart(getListIndex('ears', 'base')), enabled: true, chance: 0.75, secondaryEnabled: true},
+    ears: { data: new BodyPart(getListIndex('ears', 'base')), enabled: true, chance: chimeraConfigData['earsEnabledChance'], secondaryEnabled: true},
     head: { data: new BodyPart(getListIndex('head', 'base')), secondaryEnabled: true},
     head_unique: { data: new BodyPart(getListIndex('head_unique', 'base')), secondaryEnabled: true},
     nose: { data: new BodyPart(getListIndex('nose', 'base')), secondaryEnabled: true},
     mouth: { data: new BodyPart(getListIndex('mouth', 'base')), secondaryEnabled: true},
     muzzle: { data: new BodyPart(getListIndex('muzzle', 'base')), secondaryEnabled: true},
     eyes: { data: new BodyPart(getListIndex('eyes', 'base')), secondaryEnabled: true},
-    hair_front: { data: new BodyPart(getListIndex('hair_front', 'default')), enabled: true, chance: 0.85, secondaryEnabled: true},
-    hair_back: { data: new BodyPart(getListIndex('hair_back', 'longer')), enabled: true, chance: 0.85, secondaryEnabled: true},
-    horns: { data: new BodyPart(getListIndex('horns', 'base')), enabled: false, chance: 0.50, secondaryEnabled: true},
-    horns_front: { data: new BodyPart(getListIndex('horns_front', 'base')), enabled: false, chance: 0.50, secondaryEnabled: true},
+    hair_front: { data: new BodyPart(getListIndex('hair_front', 'default')), enabled: true, chance: chimeraConfigData['hairFrontEnabledChance'], secondaryEnabled: true},
+    hair_back: { data: new BodyPart(getListIndex('hair_back', 'longer')), enabled: true, chance: chimeraConfigData['hairBackEnabledChance'], secondaryEnabled: true},
+    horns: { data: new BodyPart(getListIndex('horns', 'base')), enabled: false, chance: chimeraConfigData['hornsEnabledChance'], secondaryEnabled: true},
+    horns_front: { data: new BodyPart(getListIndex('horns_front', 'base')), enabled: false, chance: chimeraConfigData['hornsFrontEnabledChance'], secondaryEnabled: true},
 };
 
 //let test = true;
