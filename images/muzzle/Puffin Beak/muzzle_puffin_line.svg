@@ -7,6 +7,7 @@
    width="2400"
    height="3200"
    viewBox="0 0 2400 3200"
+   scale = "0.5"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
