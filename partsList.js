@@ -252,7 +252,7 @@ const partsList = {
         },
         {
             "partName": "TV Ears",
-            "partType": "TVhead",
+            "partType": "TV",
             "maskOrder": [
                 "skin2",
                 "fur2",
