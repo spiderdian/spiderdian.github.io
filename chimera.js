@@ -82,7 +82,7 @@ const sounds = {
 
 const svgElementStart = '<svg version="1.0" xmlns="http://www.w3.org/2000/svg"\nwidth="2400.000000pt" height="1600.000000pt" viewBox="0 0 2400.000000 1600.000000"\n preserveAspectRatio="none">'
 const svgElementEnd = '</svg>'
-const renderOrder = ['hair_back', 'wings', 'tail', 'legs_feet', 'legs_hips', 'legs_full', 'torso', 'neck', 'arms', 'shoulders', 'ears', 'head', 'horns', 'head_unique', 'nose', 'mouth', 'muzzle', 'eyes', 'hair_front', 'horns_front']
+const renderOrder = ['hair_back', 'wings', 'tail', 'legs_feet', 'legs_hips', 'legs_full', 'torso', 'neck', 'arms', 'shoulders', 'ears', 'head', 'horns', 'head_unique', 'nose', 'mouth', 'eyes', 'muzzle', 'hair_front', 'horns_front']
 const displayOrder = ['eyes', 'nose', 'mouth', 'muzzle', 'horns_front', 'horns', 'ears', 'head', 'head_unique', 'hair_front', 'hair_back', 'neck', 'shoulders', 'arms', 'torso', 'wings', 'tail', 'legs_hips', 'legs_feet', 'legs_full']
 const layerList = ["skin1", "scale1", "skin2", "fur1", "fur2", "sclera", "iris", "color"]
 const niceNames = {
