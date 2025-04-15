@@ -24,20 +24,48 @@ def find_index(list_of_dicts, key, value):
 def return_svgs(filedata):
     #print("test")
     svg_data = []
-    svg_regex = r"(<svg[\s\S]*?<\/svg>)" #lazy 
+    svg_regex = r"(<svg[\s\S]*?<\/svg>)" # grabs the full svg element
+    separator_regex = r"(<svg[^>]*>)([\s\S]*)(<\/svg>)"
+    width_regex = r'width="(\d*)[\.\d*]*p?[t|x]?"'
+    image_regex = r"<image[^>]*?\/>"
+
     match = re.search(svg_regex, filedata)
-    
     if match:
+        match_data = match.group(1)
         
-        width_regex = r'width="(\d*)[\.\d*]*p?[t|x]?"'
-        # find if the svg is an XL and shift accordingly
-        svg_width = re.search(width_regex, match.group(1)).group(1)
-        svg_data.append({"data": match.group(1), "is_xl": True if svg_width == 2400 else False})
+        # collect the individual svg parts
+        svg_start_tag = re.search(separator_regex, match_data).group(1)
+        svg_content = re.search(separator_regex, match_data).group(2)
+
+        # find if the svg is an XL and shift accordingly. width data is stored in the start tag
+        svg_width = re.search(width_regex, svg_start_tag).group(1)
+
+        # wrap the svg content with a g element
+        match_data = match_data.replace(svg_content, f"<g>{svg_content}</g>")
+
+        # scrub image elements from the svg if there are any
+        match_data = re.sub(image_regex, '', match_data)
+
+        svg_data.append({"data": match_data, "is_xl": True if svg_width == 2400 else False})
+
+        # wipe original data from the selection
         filedata = filedata.replace(match.group(1), "")
+
         # check for alt
         match2 = re.search(svg_regex, filedata)
         if match2:
-            svg_data.append({"data": match2.group(1), "is_xl": True if svg_width == 2400 else False})
+            match2_data = match2.group(1)
+
+            # collect alt svg content
+            svg2_content = re.search(separator_regex, match2_data).group(2)
+
+            # wrap the svg content with a g element        
+            match2_data = match_data.replace(svg2_content, f"<g>{svg2_content}</g>")
+
+            # scrub image elements from the svg if there are any
+            match2_data = re.sub(image_regex, '', match2_data)
+
+            svg_data.append({"data": match2_data, "is_xl": True if svg_width == 2400 else False})
     return svg_data
 
 
