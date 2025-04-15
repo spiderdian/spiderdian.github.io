@@ -1359,7 +1359,7 @@ const partsList = {
             "maskOrder": [
                 "skin2",
                 "scale1",
-                "fur2",
+                "iris",
                 "line"
             ],
             "svgData": [
