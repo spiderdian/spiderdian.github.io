@@ -220,6 +220,12 @@ function resetSelectedParts() {
 
     for (const [key, value] of Object.entries(chimeraSVGData)) {
         //muzzle logic
+
+        // skip elements not in the side bar like legs_full_back
+        if (!displayOrder.includes(key)) {
+            continue
+        } 
+
         if (chimeraConfigData['muzzleToggled'] && (key == 'mouth' || key == 'nose')) {
             continue
         }
