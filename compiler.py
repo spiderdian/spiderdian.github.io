@@ -69,12 +69,14 @@ def return_svgs(filedata):
         # wipe original data from the selection
         filedata = filedata.replace(match.group(1), "")
 
+        #print(filedata)
+
         # check for alt
         match2 = re.search(svg_regex, filedata)
         if match2:
             
             match2_data = match2.group(1)
-            print(match2_data)
+            #print(match2_data)
             # collect alt svg content
             svg2_start_tag = re.search(separator_regex, match2_data).group(1)
             svg2_content = re.search(separator_regex, match2_data).group(2)
@@ -94,7 +96,7 @@ def return_svgs(filedata):
                 y_shrink_factor2 = base_res['def']['y'] / svg2_height
 
             # wrap the svg content with a g element        
-            match2_data = match_data.replace(svg2_content, f'<g transform="scale({x_shrink_factor2} {y_shrink_factor2})" >{svg2_content}</g>')
+            match2_data = match2_data.replace(svg2_content, f'<g transform="scale({x_shrink_factor2} {y_shrink_factor2})" >{svg2_content}</g>')
 
             # scrub image elements from the svg if there are any
             match2_data = re.sub(image_regex, '', match2_data)
@@ -113,7 +115,7 @@ def list_files_pathlib(path):
                 # print(image_path)                    
                                              # image file svg data to be compiled into a single file, eventually
                 
-                elem_part = image_path[1]                               # bodypart
+                elem_part = image_path[1]                         # bodypart
                 #print(elem_part)
                 elem_type_name = image_path[2]                          # nice name
                 filename_formatted = image_path[3].replace(f'{elem_part}_','').split('_')
@@ -121,7 +123,12 @@ def list_files_pathlib(path):
                 svg_content = return_svgs(file.read())
                 #print(len(svg_content))  
                 elem_type = filename_formatted[0]                 # species
-                elem_layer = filename_formatted[-1][:-4]          # layer
+                
+                if (filename_formatted[-1][:-4] == 'back'):       # check if there is a back layer
+                    elem_part = f'{elem_part}_back'               # legs_full_back for example
+                    elem_layer = filename_formatted[-2]           # layer
+                else:
+                    elem_layer = filename_formatted[-1][:-4]      # layer
 
                 if elem_part not in all_parts:
                     all_parts[elem_part] = []
