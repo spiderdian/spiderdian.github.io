@@ -35,7 +35,7 @@ const pixelOffset = Object.freeze({
 });
 
 let animationOffsets = {
-    'legs_full_back': pixelOffset.LOWEST,
+    'legs_full_back': pixelOffset.LOW,
     'hair_back': pixelOffset.HIGHEST, 
     'wings': pixelOffset.MIDDLE, 
     'tail': pixelOffset.LOW,
