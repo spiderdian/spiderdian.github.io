@@ -418,20 +418,20 @@ function generatePartGrahpic(layer, part, altEnabled) {
         if (altEnabled && data == "") { //if no alt data present, set to original
             data = part['svgData'][i]
         }
-        const fillRegex = /fill="#[0-9a-fA-F]{6}"/
-        const fillRegexAlt = /fill:#[0-9a-fA-F]{6}/ //required for new pieces since the fill is in the style attribute
+        const fillRegex = /fill="#[0-9a-fA-F]{6}"/g
+        const fillRegexAlt = /fill:#[0-9a-fA-F]{6}/g //required for new pieces since the fill is in the style attribute
 
         //replace whatever is in the g element fill field with data from the palette, based on its layer (mask order)
         if (part.maskOrder[i] != 'line') {
 
             //console.log(part.maskOrder[i])
             if (!chimeraSVGData[layer]['secondaryEnabled'] && part.maskOrder[i] == 'fur2') {
-                data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
-                data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
+                data = data.replaceAll(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
+                data = data.replaceAll(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
             }
             else {
-                data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
-                data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
+                data = data.replaceAll(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
+                data = data.replaceAll(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
             }
         }
         const graphicsRegex = /<g[\s\S]*<\/g>/
@@ -443,7 +443,7 @@ function generatePartGrahpic(layer, part, altEnabled) {
         }
         
         let xlString = part['isXL'] ? '' :  ' translate(' + canvasX / 2 + ' 0)'
-        let wrapper = '<g transform="scale(1.0' + (1 - offsetFactor * 0.001) + ')' + xlString + ' translate(' + (xPos) + ',' + (yPos + (animationOffsets[layer]  * offsetFactor)) + ')">\n' + data.match(graphicsRegex) + '\n</g>'
+        let wrapper = '<g transform="scale(1.0' + (1 - offsetFactor * 0.001) + ')' + xlString + ' translate(' + (xPos) + ',' + (40 + yPos + (animationOffsets[layer]  * offsetFactor)) + ')">\n' + data.match(graphicsRegex) + '\n</g>'
         //console.log(wrapper)
         graphic += wrapper
     }
