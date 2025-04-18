@@ -424,15 +424,27 @@ function generatePartGrahpic(layer, part, altEnabled) {
         //replace whatever is in the g element fill field with data from the palette, based on its layer (mask order)
         if (part.maskOrder[i] != 'line') {
 
-            //console.log(part.maskOrder[i])
-            if (!chimeraSVGData[layer]['secondaryEnabled'] && part.maskOrder[i] == 'fur2') {
-                data = data.replaceAll(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
-                data = data.replaceAll(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
+
+            if (chimeraSVGData[layer]['backLayer']) {
+                if (!chimeraSVGData[layer.replace('_back', '')]['secondaryEnabled'] && part.maskOrder[i] == 'fur2') {
+                    data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
+                    data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
+                }
+                else {
+                    data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
+                    data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
+                }
+            } else {
+                if (!chimeraSVGData[layer]['secondaryEnabled'] && part.maskOrder[i] == 'fur2') {
+                    data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
+                    data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
+                }
+                else {
+                    data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
+                    data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
+                }
             }
-            else {
-                data = data.replaceAll(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
-                data = data.replaceAll(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
-            }
+
         }
         const graphicsRegex = /<g[\s\S]*<\/g>/
         //create a string of graphics to prevent out-of-order svg loading, and wrap the graphic data in an extra graphic layer to allow us to theoretically animate it. maybe

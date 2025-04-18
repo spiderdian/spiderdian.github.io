@@ -1103,7 +1103,7 @@ const partsList = {
             "partType": "deer",
             "maskOrder": [
                 "fur1",
-                "scale1",
+                "fur2",
                 "line"
             ],
             "svgData": [
