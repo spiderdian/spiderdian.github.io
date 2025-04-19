@@ -427,21 +427,21 @@ function generatePartGrahpic(layer, part, altEnabled) {
 
             if (chimeraSVGData[layer]['backLayer']) {
                 if (!chimeraSVGData[layer.replace('_back', '')]['secondaryEnabled'] && part.maskOrder[i] == 'fur2') {
-                    data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
-                    data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
+                    data = data.replaceAll(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
+                    data = data.replaceAll(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
                 }
                 else {
-                    data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
-                    data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
+                    data = data.replaceAll(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
+                    data = data.replaceAll(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
                 }
             } else {
                 if (!chimeraSVGData[layer]['secondaryEnabled'] && part.maskOrder[i] == 'fur2') {
-                    data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
-                    data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
+                    data = data.replaceAll(fillRegex, 'fill="' + chimeraConfigData.palette['data']['fur1'] + '"')
+                    data = data.replaceAll(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data']['fur1'] )
                 }
                 else {
-                    data = data.replace(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
-                    data = data.replace(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
+                    data = data.replaceAll(fillRegex, 'fill="' + chimeraConfigData.palette['data'][part.maskOrder[i]] + '"')
+                    data = data.replaceAll(fillRegexAlt, 'fill:' + chimeraConfigData.palette['data'][part.maskOrder[i]] )
                 }
             }
 
